@@ -9,11 +9,12 @@
     "lint": "next lint"
   },
   "dependencies": {
-    "spore-graphql": "workspace:*",
+    "@apollo/sandbox": "^2.5.1",
     "@as-integrations/next": "^3.0.0",
     "next": "14.0.3",
     "react": "^18",
-    "react-dom": "^18"
+    "react-dom": "^18",
+    "spore-graphql": "workspace:*"
   },
   "devDependencies": {
     "@types/node": "^20",
