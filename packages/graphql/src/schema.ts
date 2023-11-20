@@ -15,7 +15,7 @@ export const typeDefs: DocumentNode = gql`
   }
 
   type Query {
-    spores(filter: SporesFilterInput, withContent: Boolean): [Spore]
-    spore(id: String!, withContent: Boolean): Spore
+    spores(filter: SporesFilterInput, first: Int!, after: String): [Spore]
+    spore(id: String!): Spore
   }
 `;
