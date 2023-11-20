@@ -23,7 +23,9 @@ export const typeDefs: DocumentNode = gql`
   type Query {
     spore(id: String!): Spore
     spores(filter: SporesFilterInput, first: Int!, after: String): [Spore]
+    sporeCount(filter: SporesFilterInput): Int!
     cluster(id: String!): Cluster
     clusters(first: Int!, after: String): [Cluster]
+    clusterCount: Int!
   }
 `;

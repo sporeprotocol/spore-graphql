@@ -45,6 +45,24 @@ export const resolvers = {
       return spores;
     },
 
+    sporeCount: async (
+      _: unknown,
+      options: SporeQueryOptions,
+      { dataSources }: ContextValue,
+    ): Promise<Spore[]> => {
+      const { filter = {} } = options ?? {};
+      const { clusterId, contentType } = filter;
+      const spores = await dataSources.spores.getSporesFor([
+        '0x',
+        'desc',
+        Number.MAX_SAFE_INTEGER,
+        undefined,
+        clusterId,
+        contentType,
+      ]);
+      return spores.length;
+    },
+
     cluster: async (
       _: unknown,
       { id }: { id: string },
@@ -72,6 +90,20 @@ export const resolvers = {
         after,
       ]);
       return clusters;
+    },
+
+    clusterCount: async (
+      _: unknown,
+      options: BaseQueryOptions,
+      { dataSources }: ContextValue,
+    ) => {
+      const clusters = await dataSources.clusters.getClustersFor([
+        '0x',
+        'desc',
+        Number.MAX_SAFE_INTEGER,
+        undefined,
+      ]);
+      return clusters.length;
     },
   },
 };
