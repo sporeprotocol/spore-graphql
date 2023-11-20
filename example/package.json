@@ -4,6 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
+    "postinstall": "cd node_modules/spore-graphql && npm run build && cd ../..",
     "build": "next build",
     "start": "next start",
     "lint": "next lint"

@@ -6,7 +6,7 @@ type SporeId = string;
 type SporeOrder = 'asc' | 'desc';
 type SporeLoadKey = [SporeId, SporeOrder];
 
-interface Spore {
+export interface Spore {
   id: SporeId;
   clusterId: string | undefined;
   contentType: string;
