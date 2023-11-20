@@ -1,4 +1,4 @@
-import { ContextValue } from '.';
+import { ContextValue } from './context';
 
 type SporeFilter = {
   clusterId?: string;

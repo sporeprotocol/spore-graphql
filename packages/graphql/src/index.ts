@@ -1,7 +1,7 @@
 import { ApolloServer, ApolloServerOptions } from '@apollo/server';
 import { typeDefs } from './schema';
 import { resolvers } from './resolvers';
-import { createContext } from './context';
+import { ContextValue, createContext } from './context';
 
 export { createContext };
 
