@@ -1,4 +1,5 @@
 import { ContextValue } from './context';
+import { Cluster } from './data-sources/clusters';
 import { Spore } from './data-sources/spores';
 
 type SporeFilter = {
@@ -49,7 +50,7 @@ export const resolvers = {
       _: unknown,
       options: SporeQueryOptions,
       { dataSources }: ContextValue,
-    ): Promise<Spore[]> => {
+    ): Promise<number> => {
       const { filter = {} } = options ?? {};
       const { clusterId, contentType } = filter;
       const spores = await dataSources.spores.getSporesFor([
@@ -67,7 +68,7 @@ export const resolvers = {
       _: unknown,
       { id }: { id: string },
       { dataSources }: ContextValue,
-    ) => {
+    ): Promise<Cluster> => {
       const clusters = await dataSources.clusters.getClustersFor([
         id,
         'desc',
@@ -81,7 +82,7 @@ export const resolvers = {
       _: unknown,
       options: BaseQueryOptions,
       { dataSources }: ContextValue,
-    ) => {
+    ): Promise<Cluster[]> => {
       const { first = 20, after } = options ?? {};
       const clusters = await dataSources.clusters.getClustersFor([
         '0x',
@@ -94,9 +95,9 @@ export const resolvers = {
 
     clusterCount: async (
       _: unknown,
-      options: BaseQueryOptions,
+      __: unknown,
       { dataSources }: ContextValue,
-    ) => {
+    ): Promise<number> => {
       const clusters = await dataSources.clusters.getClustersFor([
         '0x',
         'desc',
