@@ -1,14 +1,7 @@
 import DataLoader from 'dataloader';
 import { Indexer } from '@ckb-lumos/lumos';
 import { predefinedSporeConfigs, unpackToRawSporeData } from '@spore-sdk/core';
-
-type Order = 'asc' | 'desc';
-type First = number;
-type After = string;
-
-type SporeId = string;
-type ClusterId = string;
-type ContentType = string;
+import { After, ClusterId, ContentType, First, Order, SporeId } from './types';
 
 type SporeCollectKey = [SporeId, Order];
 type SporeLoadKey = [SporeId, Order, First, After?, ClusterId?, ContentType?];

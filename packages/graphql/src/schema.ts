@@ -2,6 +2,11 @@ import { DocumentNode } from 'graphql';
 import { gql } from 'graphql-tag';
 
 export const typeDefs: DocumentNode = gql`
+  input SporesFilterInput {
+    clusterId: String
+    contentType: String
+  }
+
   type Spore {
     id: String
     clusterId: String
@@ -9,13 +14,16 @@ export const typeDefs: DocumentNode = gql`
     content: String
   }
 
-  input SporesFilterInput {
-    clusterId: String
-    contentType: String
+  type Cluster {
+    id: String
+    name: String
+    description: String
   }
 
   type Query {
-    spores(filter: SporesFilterInput, first: Int!, after: String): [Spore]
     spore(id: String!): Spore
+    spores(filter: SporesFilterInput, first: Int!, after: String): [Spore]
+    cluster(id: String!): Cluster
+    clusters(first: Int!, after: String): [Cluster]
   }
 `;
