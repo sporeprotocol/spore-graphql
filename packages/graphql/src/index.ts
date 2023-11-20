@@ -1,11 +1,17 @@
-import { ApolloServer } from '@apollo/server';
+import { ApolloServer, ApolloServerOptions } from '@apollo/server';
 import { typeDefs } from './schema';
 import { resolvers } from './resolvers';
+import { createContext } from './context';
 
-const server = new ApolloServer({
-  typeDefs,
-  resolvers,
-  introspection: true,
-});
+export { createContext };
 
-export default server;
+export function createApolloServer(
+  options: Pick<ApolloServerOptions<ContextValue>, 'introspection'>,
+) {
+  const server = new ApolloServer<ContextValue>({
+    ...options,
+    typeDefs,
+    resolvers,
+  });
+  return server;
+}

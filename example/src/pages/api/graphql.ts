@@ -1,6 +1,11 @@
 import { startServerAndCreateNextHandler } from '@as-integrations/next';
-import sporeGraphqlServer from 'spore-graphql';
+import { createContext, createApolloServer } from 'spore-graphql';
 
-export default startServerAndCreateNextHandler(sporeGraphqlServer, {
-  context: async (req, res) => ({ req, res }),
-});
+export default startServerAndCreateNextHandler(
+  createApolloServer({
+    introspection: true,
+  }),
+  {
+    context: async () => createContext(),
+  },
+);

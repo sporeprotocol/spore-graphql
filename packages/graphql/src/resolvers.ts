@@ -1,5 +1,4 @@
-import { Indexer } from '@ckb-lumos/lumos';
-import { predefinedSporeConfigs, unpackToRawSporeData } from '@spore-sdk/core';
+import { ContextValue } from '.';
 
 type SporeFilter = {
   clusterId?: string;
@@ -12,58 +11,32 @@ type SporeQueryOptions = {
 
 export const resolvers = {
   Query: {
-    spores: async (_: unknown, options: SporeQueryOptions) => {
-      const { clusterId, contentType } = options.filter;
-      const indexer = new Indexer(predefinedSporeConfigs.Aggron4.ckbIndexerUrl);
-      const collector = indexer.collector({
-        type: {
-          ...predefinedSporeConfigs.Aggron4.scripts.Spore.script,
-          args: '0x',
-        },
-        order: 'desc',
-      });
-
-      const spores = [];
-      for await (const cell of collector.collect()) {
-        const rawSporeData = unpackToRawSporeData(cell.data);
-        const spore = {
-          id: cell.cellOutput.type?.args,
-          clusterId: rawSporeData.clusterId,
-          contentType: rawSporeData.contentType,
-          content: rawSporeData.content,
-        };
+    spores: async (
+      _: unknown,
+      options: SporeQueryOptions,
+      { dataSources }: ContextValue,
+    ) => {
+      const { clusterId, contentType } = options?.filter ?? {};
+      const spores = await dataSources.spores.getSporesFor(['0x', 'desc']);
+      return spores.filter((spore) => {
         if (clusterId && spore.clusterId !== clusterId) {
-          continue;
+          return false;
         }
         if (contentType && spore.contentType !== contentType) {
-          continue;
+          return false;
         }
-        spores.push(spore);
-      }
-      return spores;
+        return true;
+      });
     },
 
-    spore: async (_: unknown, { id }: { id: string }) => {
-      const indexer = new Indexer(predefinedSporeConfigs.Aggron4.ckbIndexerUrl);
-      const collector = indexer.collector({
-        type: {
-          ...predefinedSporeConfigs.Aggron4.scripts.Spore.script,
-          args: id,
-        },
-        order: 'desc',
-      });
-
-      for await (const cell of collector.collect()) {
-        const rawSporeData = unpackToRawSporeData(cell.data);
-        const spore = {
-          id: cell.cellOutput.type?.args,
-          clusterId: rawSporeData.clusterId,
-          contentType: rawSporeData.contentType,
-          content: rawSporeData.content,
-        };
-        return spore;
-      }
-      return null;
+    spore: async (
+      _: unknown,
+      { id }: { id: string },
+      { dataSources }: ContextValue,
+    ) => {
+      const spores = await dataSources.spores.getSporesFor([id, 'desc']);
+      const [spore] = spores;
+      return spore;
     },
   },
 };
