@@ -4,5 +4,6 @@ import { resolvers } from './resolvers';
 const server = new ApolloServer({
     typeDefs,
     resolvers,
+    introspection: true,
 });
 export default server;
