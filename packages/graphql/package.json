@@ -1,0 +1,32 @@
+{
+  "name": "spore-graphql",
+  "version": "1.0.0",
+  "description": "",
+  "type": "module",
+  "module": "./lib/index.js",
+  "types": "./lib/index.d.ts",
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "scripts": {
+    "dev": "tsc --watch --project tsconfig.build.json",
+    "build": "tsc --project tsconfig.build.json"
+  },
+  "dependencies": {
+    "@apollo/server": "^4.9.5",
+    "@ckb-lumos/lumos": "^0.20.0",
+    "@spore-sdk/core": "0.1.0-beta.14",
+    "graphql": "^16.8.1",
+    "graphql-tag": "^2.12.6"
+  },
+  "devDependencies": {
+    "@typescript-eslint/eslint-plugin": "^5.62.0",
+    "@typescript-eslint/parser": "^5.62.0",
+    "eslint": "8.17.0",
+    "eslint-config-prettier": "^8.10.0",
+    "eslint-import-resolver-typescript": "^3.6.1",
+    "eslint-plugin-import": "2.26.0",
+    "eslint-plugin-prettier": "^4.2.1",
+    "prettier": "^2.8.8"
+  }
+}
