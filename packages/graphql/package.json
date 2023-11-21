@@ -10,7 +10,9 @@
   "license": "ISC",
   "scripts": {
     "dev": "tsc --watch --project tsconfig.build.json",
-    "build": "tsc --project tsconfig.build.json"
+    "build": "tsc --project tsconfig.build.json",
+    "generate": "graphql-codegen",
+    "prepublish": "npm run generate && npm run build"
   },
   "dependencies": {
     "@apollo/server": "^4.9.5",
