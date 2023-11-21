@@ -40,6 +40,7 @@ export const resolvers = {
         filter: {
           clusterId: cluster.id,
         },
+        first: Number.MAX_SAFE_INTEGER,
       } as SporeQueryParams;
       return getSpores(undefined, params, context);
     },
