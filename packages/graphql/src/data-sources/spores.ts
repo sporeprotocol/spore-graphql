@@ -1,7 +1,7 @@
 import DataLoader from 'dataloader';
 import { predefinedSporeConfigs, unpackToRawSporeData } from '@spore-sdk/core';
 import { After, ClusterId, ContentType, First, Order, SporeId } from './types';
-import { Indexer } from '@ckb-lumos/lumos';
+import { Cell, Indexer } from '@ckb-lumos/lumos';
 
 export type SporeCollectKey = [SporeId, Order];
 export type SporeLoadKey = [
@@ -18,6 +18,7 @@ export interface Spore {
   clusterId: string | undefined;
   contentType: string;
   content: string;
+  cell: Cell;
 }
 
 export class SporesDataSource {
@@ -29,6 +30,18 @@ export class SporesDataSource {
       predefinedSporeConfigs.Aggron4.ckbIndexerUrl,
       predefinedSporeConfigs.Aggron4.ckbNodeUrl,
     );
+  }
+
+  public static getSporeFromCell(cell: Cell): Spore {
+    const rawSporeData = unpackToRawSporeData(cell.data);
+    const spore = {
+      id: cell.cellOutput.type?.args ?? '0x',
+      clusterId: rawSporeData.clusterId?.toString(),
+      contentType: rawSporeData.contentType.toString(),
+      content: rawSporeData.content.toString(),
+      cell,
+    };
+    return spore;
   }
 
   private sporesCollector = new DataLoader(
@@ -68,13 +81,7 @@ export class SporesDataSource {
               continue;
             }
 
-            const rawSporeData = unpackToRawSporeData(cell.data);
-            const spore = {
-              id: cell.cellOutput.type?.args ?? '0x',
-              clusterId: rawSporeData.clusterId?.toString(),
-              contentType: rawSporeData.contentType.toString(),
-              content: rawSporeData.content.toString(),
-            };
+            const spore = SporesDataSource.getSporeFromCell(cell);
 
             if (clusterId && spore.clusterId !== clusterId) {
               continue;

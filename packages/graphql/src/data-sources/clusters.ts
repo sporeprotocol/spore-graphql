@@ -1,5 +1,5 @@
 import DataLoader from 'dataloader';
-import { Indexer } from '@ckb-lumos/lumos';
+import { Cell, Indexer } from '@ckb-lumos/lumos';
 import {
   predefinedSporeConfigs,
   unpackToRawClusterData,
@@ -13,6 +13,7 @@ export interface Cluster {
   id: ClusterId;
   name: string;
   description?: string;
+  cell: Cell;
 }
 
 export class ClustersDataSource {
@@ -24,6 +25,17 @@ export class ClustersDataSource {
       predefinedSporeConfigs.Aggron4.ckbIndexerUrl,
       predefinedSporeConfigs.Aggron4.ckbNodeUrl,
     );
+  }
+
+  public static getClusterFromCell(cell: Cell): Cluster {
+    const rawClusterData = unpackToRawClusterData(cell.data);
+    const cluster = {
+      id: cell.cellOutput.type?.args ?? '0x',
+      name: rawClusterData.name.toString(),
+      description: rawClusterData.description?.toString(),
+      cell,
+    };
+    return cluster;
   }
 
   private clustersCollector = new DataLoader(
@@ -63,13 +75,7 @@ export class ClustersDataSource {
               continue;
             }
 
-            const rawClusterData = unpackToRawClusterData(cell.data);
-            const cluster = {
-              id: cell.cellOutput.type?.args ?? '0x',
-              name: rawClusterData.name.toString(),
-              description: rawClusterData.description?.toString(),
-            };
-
+            const cluster = ClustersDataSource.getClusterFromCell(cell);
             clusters.push(cluster);
             if (clusters.length >= first) {
               break;
