@@ -1,0 +1,6 @@
+node_modules/
+src/
+.eslintrc.json
+.gitignore
+tsconfig.json
+tsconfig.build.json
