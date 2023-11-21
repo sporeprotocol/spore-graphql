@@ -23,8 +23,11 @@ export const resolvers = {
 
   Spore: {
     cluster: async (spore: Spore, _: unknown, context: ContextValue) => {
+      if (!spore.clusterId) {
+        return null;
+      }
       const params = {
-        id: spore.id,
+        id: spore.clusterId,
       };
       return getClusterById(undefined, params, context);
     },
