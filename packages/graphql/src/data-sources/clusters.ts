@@ -6,8 +6,8 @@ import {
 } from '@spore-sdk/core';
 import { After, ClusterId, First, Order } from './types';
 
-type ClusterCollectKey = [ClusterId, Order];
-type ClusterLoadKey = [ClusterId, Order, First, After?];
+export type ClusterCollectKey = [ClusterId, Order];
+export type ClusterLoadKey = [ClusterId, Order, First, After?];
 
 export interface Cluster {
   id: ClusterId;

@@ -3,8 +3,15 @@ import { predefinedSporeConfigs, unpackToRawSporeData } from '@spore-sdk/core';
 import { After, ClusterId, ContentType, First, Order, SporeId } from './types';
 import { Indexer } from '@ckb-lumos/lumos';
 
-type SporeCollectKey = [SporeId, Order];
-type SporeLoadKey = [SporeId, Order, First, After?, ClusterId?, ContentType?];
+export type SporeCollectKey = [SporeId, Order];
+export type SporeLoadKey = [
+  SporeId,
+  Order,
+  First,
+  After?,
+  ClusterId?,
+  ContentType?,
+];
 
 export interface Spore {
   id: SporeId;
