@@ -33,7 +33,7 @@ export class SporesDataSource {
               ...this.script,
               args: id,
             },
-            order: order,
+            order,
           });
           return collector;
         }),

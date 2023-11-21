@@ -7,6 +7,11 @@ export const typeDefs: DocumentNode = gql`
     contentType: String
   }
 
+  enum QueryOrder {
+    asc
+    desc
+  }
+
   type Spore {
     id: String
     clusterId: String
@@ -24,10 +29,16 @@ export const typeDefs: DocumentNode = gql`
 
   type Query {
     spore(id: String!): Spore
-    spores(filter: SporesFilterInput, first: Int!, after: String): [Spore]
+    spores(
+      filter: SporesFilterInput
+      first: Int = 10
+      after: String
+      order: QueryOrder
+    ): [Spore]
     sporeCount(filter: SporesFilterInput): Int!
     cluster(id: String!): Cluster
-    clusters(first: Int!, after: String): [Cluster]
+    clusters(first: Int = 10, after: String, order: QueryOrder): [Cluster]
+    topClusters(first: Int): [Cluster]
     clusterCount: Int!
   }
 `;
