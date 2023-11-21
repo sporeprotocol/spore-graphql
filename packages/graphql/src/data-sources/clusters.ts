@@ -20,7 +20,10 @@ export class ClustersDataSource {
   private script = predefinedSporeConfigs.Aggron4.scripts.Cluster.script;
 
   constructor() {
-    this.indexer = new Indexer(predefinedSporeConfigs.Aggron4.ckbIndexerUrl);
+    this.indexer = new Indexer(
+      predefinedSporeConfigs.Aggron4.ckbIndexerUrl,
+      predefinedSporeConfigs.Aggron4.ckbNodeUrl,
+    );
   }
 
   private clustersCollector = new DataLoader(

@@ -7,12 +7,12 @@ type SporeFilter = {
   contentType?: string;
 };
 
-type BaseQueryOptions = {
+type BaseQueryParams = {
   first?: number;
   after?: string;
 };
 
-type SporeQueryOptions = BaseQueryOptions & {
+type SporeQueryParams = BaseQueryParams & {
   filter: SporeFilter;
 };
 
@@ -30,10 +30,10 @@ export const resolvers = {
 
     spores: async (
       _: unknown,
-      options: SporeQueryOptions,
+      params: SporeQueryParams,
       { dataSources }: ContextValue,
     ): Promise<Spore[]> => {
-      const { filter = {}, first = 20, after } = options ?? {};
+      const { filter = {}, first = 20, after } = params ?? {};
       const { clusterId, contentType } = filter;
       const spores = await dataSources.spores.getSporesFor([
         '0x',
@@ -48,10 +48,10 @@ export const resolvers = {
 
     sporeCount: async (
       _: unknown,
-      options: SporeQueryOptions,
+      params: SporeQueryParams,
       { dataSources }: ContextValue,
     ): Promise<number> => {
-      const { filter = {} } = options ?? {};
+      const { filter = {} } = params ?? {};
       const { clusterId, contentType } = filter;
       const spores = await dataSources.spores.getSporesFor([
         '0x',
@@ -80,10 +80,10 @@ export const resolvers = {
 
     clusters: async (
       _: unknown,
-      options: BaseQueryOptions,
+      params: BaseQueryParams,
       { dataSources }: ContextValue,
     ): Promise<Cluster[]> => {
-      const { first = 20, after } = options ?? {};
+      const { first = 20, after } = params ?? {};
       const clusters = await dataSources.clusters.getClustersFor([
         '0x',
         'desc',
@@ -105,6 +105,43 @@ export const resolvers = {
         undefined,
       ]);
       return clusters.length;
+    },
+  },
+
+  Spore: {
+    cluster: async (
+      spore: Spore,
+      _: unknown,
+      { dataSources }: ContextValue,
+    ) => {
+      if (!spore.clusterId) {
+        return null;
+      }
+
+      const clusters = await dataSources.clusters.getClustersFor([
+        spore.clusterId,
+        'desc',
+        1,
+      ]);
+      const [cluster] = clusters;
+      return cluster;
+    },
+  },
+
+  Cluster: {
+    spores: async (
+      cluster: Cluster,
+      _: unknown,
+      { dataSources }: ContextValue,
+    ): Promise<Spore[]> => {
+      const spores = await dataSources.spores.getSporesFor([
+        '0x',
+        'desc',
+        Number.MAX_SAFE_INTEGER,
+        undefined,
+        cluster.id,
+      ]);
+      return spores;
     },
   },
 };

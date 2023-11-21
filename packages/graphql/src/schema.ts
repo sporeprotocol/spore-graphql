@@ -12,12 +12,14 @@ export const typeDefs: DocumentNode = gql`
     clusterId: String
     contentType: String
     content: String
+    cluster: Cluster
   }
 
   type Cluster {
     id: String
     name: String
     description: String
+    spores: [Spore]
   }
 
   type Query {

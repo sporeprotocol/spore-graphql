@@ -1,7 +1,7 @@
 import DataLoader from 'dataloader';
-import { Indexer } from '@ckb-lumos/lumos';
 import { predefinedSporeConfigs, unpackToRawSporeData } from '@spore-sdk/core';
 import { After, ClusterId, ContentType, First, Order, SporeId } from './types';
+import { Indexer } from '@ckb-lumos/lumos';
 
 type SporeCollectKey = [SporeId, Order];
 type SporeLoadKey = [SporeId, Order, First, After?, ClusterId?, ContentType?];
@@ -18,7 +18,10 @@ export class SporesDataSource {
   private script = predefinedSporeConfigs.Aggron4.scripts.Spore.script;
 
   constructor() {
-    this.indexer = new Indexer(predefinedSporeConfigs.Aggron4.ckbIndexerUrl);
+    this.indexer = new Indexer(
+      predefinedSporeConfigs.Aggron4.ckbIndexerUrl,
+      predefinedSporeConfigs.Aggron4.ckbNodeUrl,
+    );
   }
 
   private sporesCollector = new DataLoader(
