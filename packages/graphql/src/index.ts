@@ -4,12 +4,20 @@ import { resolvers } from './resolvers';
 import { ContextValue, createContext } from './context';
 
 export * from './resolvers-types';
+export type { ContextValue };
 export { createContext };
 
-export function createApolloServer(
-  options?: Pick<ApolloServerOptions<ContextValue>, 'introspection'>,
+type CreateApolloServerOptions = Partial<
+  Omit<
+    ApolloServerOptions<ContextValue>,
+    'typeDefs' | 'resolvers' | 'schema' | 'gateway'
+  >
+>;
+
+export function createApolloServer<Context extends ContextValue>(
+  options?: CreateApolloServerOptions,
 ) {
-  const server = new ApolloServer<ContextValue>({
+  const server = new ApolloServer<Context>({
     ...(options ?? {}),
     typeDefs,
     resolvers,
