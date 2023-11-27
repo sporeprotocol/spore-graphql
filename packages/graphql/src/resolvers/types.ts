@@ -9,6 +9,11 @@ import {
 export type SporeFilter = {
   clusterId?: ClusterId;
   contentType?: ContentType;
+  address?: string;
+};
+
+export type ClusterFliter = {
+  address?: string;
 };
 
 export type BaseQueryParams = {
@@ -19,4 +24,8 @@ export type BaseQueryParams = {
 
 export type SporeQueryParams = BaseQueryParams & {
   filter: SporeFilter;
+};
+
+export type ClusterQueryParams = BaseQueryParams & {
+  filter: ClusterFliter;
 };

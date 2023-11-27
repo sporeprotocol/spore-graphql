@@ -1,7 +1,7 @@
 import { groupBy } from 'lodash-es';
 import { ContextValue } from '../context';
 import { Cluster, ClusterLoadKey } from '../data-sources/clusters';
-import { BaseQueryParams } from './types';
+import { ClusterQueryParams } from './types';
 import { getQueryParams } from './utils';
 import { SporeLoadKey } from '../data-sources/spores';
 
@@ -18,18 +18,19 @@ export async function getClusterById(
 
 export async function getClusters(
   _: unknown,
-  params: BaseQueryParams,
+  params: ClusterQueryParams,
   { dataSources }: ContextValue,
 ): Promise<Cluster[]> {
-  const { first, after, order } = getQueryParams(params);
-  const key: ClusterLoadKey = ['0x', order, first, after];
+  const { first, after, order, filter } = getQueryParams(params);
+  const { address } = filter;
+  const key: ClusterLoadKey = ['0x', order, first, after, address];
   const clusters = await dataSources.clusters.getClustersFor(key);
   return clusters;
 }
 
 export async function getTopClusters(
   _: unknown,
-  { first = Number.MAX_SAFE_INTEGER }: { first: number },
+  { first = Number.MAX_SAFE_INTEGER }: Pick<ClusterQueryParams, 'first'>,
   { dataSources }: ContextValue,
 ): Promise<Cluster[]> {
   const key: SporeLoadKey = ['0x', 'desc', Number.MAX_SAFE_INTEGER];

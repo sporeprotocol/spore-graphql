@@ -36,14 +36,14 @@ export const resolvers = {
   Cluster: {
     spores: async (
       cluster: Cluster,
-      _: unknown,
+      args: { first?: number },
       context: ContextValue,
     ): Promise<Spore[]> => {
       const params = {
         filter: {
           clusterId: cluster.id,
         },
-        first: Number.MAX_SAFE_INTEGER,
+        first: args.first ?? Number.MAX_SAFE_INTEGER,
       } as SporeQueryParams;
       return getSpores(undefined, params, context);
     },

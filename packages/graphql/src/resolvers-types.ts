@@ -16,6 +16,11 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export enum CacheControlScope {
+  Private = 'PRIVATE',
+  Public = 'PUBLIC'
+}
+
 export type Cell = {
   __typename?: 'Cell';
   blockHash?: Maybe<Scalars['String']['output']>;
@@ -40,6 +45,15 @@ export type Cluster = {
   id?: Maybe<Scalars['String']['output']>;
   name?: Maybe<Scalars['String']['output']>;
   spores?: Maybe<Array<Maybe<Spore>>>;
+};
+
+
+export type ClusterSporesArgs = {
+  first?: InputMaybe<Scalars['Int']['input']>;
+};
+
+export type ClusterFilterInput = {
+  address?: InputMaybe<Scalars['String']['input']>;
 };
 
 export enum HashType {
@@ -73,6 +87,7 @@ export type QueryClusterArgs = {
 
 export type QueryClustersArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<ClusterFilterInput>;
   first?: InputMaybe<Scalars['Int']['input']>;
   order?: InputMaybe<QueryOrder>;
 };
@@ -84,13 +99,13 @@ export type QuerySporeArgs = {
 
 
 export type QuerySporeCountArgs = {
-  filter?: InputMaybe<SporesFilterInput>;
+  filter?: InputMaybe<SporeFilterInput>;
 };
 
 
 export type QuerySporesArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
-  filter?: InputMaybe<SporesFilterInput>;
+  filter?: InputMaybe<SporeFilterInput>;
   first?: InputMaybe<Scalars['Int']['input']>;
   order?: InputMaybe<QueryOrder>;
 };
@@ -122,7 +137,8 @@ export type Spore = {
   id?: Maybe<Scalars['String']['output']>;
 };
 
-export type SporesFilterInput = {
+export type SporeFilterInput = {
+  address?: InputMaybe<Scalars['String']['input']>;
   clusterId?: InputMaybe<Scalars['String']['input']>;
   contentType?: InputMaybe<Scalars['String']['input']>;
 };
@@ -200,9 +216,11 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
+  CacheControlScope: CacheControlScope;
   Cell: ResolverTypeWrapper<Cell>;
   CellOutput: ResolverTypeWrapper<CellOutput>;
   Cluster: ResolverTypeWrapper<Cluster>;
+  ClusterFilterInput: ClusterFilterInput;
   HashType: HashType;
   Int: ResolverTypeWrapper<Scalars['Int']['output']>;
   OutPoint: ResolverTypeWrapper<OutPoint>;
@@ -210,7 +228,7 @@ export type ResolversTypes = ResolversObject<{
   QueryOrder: QueryOrder;
   Script: ResolverTypeWrapper<Script>;
   Spore: ResolverTypeWrapper<Spore>;
-  SporesFilterInput: SporesFilterInput;
+  SporeFilterInput: SporeFilterInput;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
 }>;
 
@@ -220,14 +238,23 @@ export type ResolversParentTypes = ResolversObject<{
   Cell: Cell;
   CellOutput: CellOutput;
   Cluster: Cluster;
+  ClusterFilterInput: ClusterFilterInput;
   Int: Scalars['Int']['output'];
   OutPoint: OutPoint;
   Query: {};
   Script: Script;
   Spore: Spore;
-  SporesFilterInput: SporesFilterInput;
+  SporeFilterInput: SporeFilterInput;
   String: Scalars['String']['output'];
 }>;
+
+export type CacheControlDirectiveArgs = {
+  inheritMaxAge?: Maybe<Scalars['Boolean']['input']>;
+  maxAge?: Maybe<Scalars['Int']['input']>;
+  scope?: Maybe<CacheControlScope>;
+};
+
+export type CacheControlDirectiveResolver<Result, Parent, ContextType = any, Args = CacheControlDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
 export type CellResolvers<ContextType = any, ParentType extends ResolversParentTypes['Cell'] = ResolversParentTypes['Cell']> = ResolversObject<{
   blockHash?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
@@ -251,7 +278,7 @@ export type ClusterResolvers<ContextType = any, ParentType extends ResolversPare
   description?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   id?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   name?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
-  spores?: Resolver<Maybe<Array<Maybe<ResolversTypes['Spore']>>>, ParentType, ContextType>;
+  spores?: Resolver<Maybe<Array<Maybe<ResolversTypes['Spore']>>>, ParentType, ContextType, Partial<ClusterSporesArgs>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
@@ -298,3 +325,6 @@ export type Resolvers<ContextType = any> = ResolversObject<{
   Spore?: SporeResolvers<ContextType>;
 }>;
 
+export type DirectiveResolvers<ContextType = any> = ResolversObject<{
+  cacheControl?: CacheControlDirectiveResolver<any, any, ContextType>;
+}>;

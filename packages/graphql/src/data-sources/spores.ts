@@ -1,7 +1,16 @@
 import DataLoader from 'dataloader';
 import { predefinedSporeConfigs, unpackToRawSporeData } from '@spore-sdk/core';
-import { After, ClusterId, ContentType, First, Order, SporeId } from './types';
+import {
+  Address,
+  After,
+  ClusterId,
+  ContentType,
+  First,
+  Order,
+  SporeId,
+} from './types';
 import { Cell, Indexer } from '@ckb-lumos/lumos';
+import {encodeToAddress} from './utils';
 
 export type SporeCollectKey = [SporeId, Order];
 export type SporeLoadKey = [
@@ -11,6 +20,7 @@ export type SporeLoadKey = [
   After?,
   ClusterId?,
   ContentType?,
+  Address?,
 ];
 
 export interface Spore {
@@ -69,34 +79,50 @@ export class SporesDataSource {
   sporesLoader = new DataLoader(
     (keys: readonly SporeLoadKey[]) => {
       return Promise.all(
-        keys.map(async ([id, order, first, after, clusterId, contentType]) => {
-          const collector = await this.sporesCollector.load([id, order]);
+        keys.map(
+          async ([
+            id,
+            order,
+            first,
+            after,
+            clusterId,
+            contentType,
+            address,
+          ]) => {
+            const collector = await this.sporesCollector.load([id, order]);
 
-          let startCollect = !after;
-          const spores: Spore[] = [];
-          for await (const cell of collector.collect()) {
-            const id = cell.cellOutput.type?.args ?? '0x';
-            if (!startCollect) {
-              startCollect = id === after;
-              continue;
-            }
+            let startCollect = !after;
+            const spores: Spore[] = [];
+            for await (const cell of collector.collect()) {
+              const id = cell.cellOutput.type?.args ?? '0x';
+              if (!startCollect) {
+                startCollect = id === after;
+                continue;
+              }
 
-            const spore = SporesDataSource.getSporeFromCell(cell);
+              const spore = SporesDataSource.getSporeFromCell(cell);
 
-            if (clusterId && spore.clusterId !== clusterId) {
-              continue;
-            }
-            if (contentType && spore.contentType !== contentType) {
-              continue;
-            }
+              if (clusterId && spore.clusterId !== clusterId) {
+                continue;
+              }
+              if (contentType && spore.contentType !== contentType) {
+                continue;
+              }
+              if (
+                address &&
+                encodeToAddress(spore.cell.cellOutput.lock) !== address
+              ) {
+                continue;
+              }
 
-            spores.push(spore);
-            if (spores.length >= first) {
-              break;
+              spores.push(spore);
+              if (spores.length >= first) {
+                break;
+              }
             }
-          }
-          return spores;
-        }),
+            return spores;
+          },
+        ),
       );
     },
     {

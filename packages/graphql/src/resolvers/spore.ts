@@ -19,8 +19,8 @@ export async function getSpores(
   { dataSources }: ContextValue,
 ): Promise<Spore[]> {
   const { filter = {}, first, after, order } = getQueryParams(params);
-  const { clusterId, contentType } = filter;
-  const key: SporeLoadKey = ['0x', order, first, after, clusterId, contentType];
+  const { clusterId, contentType, address } = filter;
+  const key: SporeLoadKey = ['0x', order, first, after, clusterId, contentType, address];
   const spores = await dataSources.spores.getSporesFor(key);
   return spores;
 }
@@ -31,7 +31,7 @@ export async function getSporeCount(
   { dataSources }: ContextValue,
 ): Promise<number> {
   const { filter = {} } = getQueryParams(params);
-  const { clusterId, contentType } = filter;
+  const { clusterId, contentType, address } = filter;
   const key: SporeLoadKey = [
     '0x',
     'desc',
@@ -39,6 +39,7 @@ export async function getSporeCount(
     undefined,
     clusterId,
     contentType,
+    address,
   ];
   const spores = await dataSources.spores.getSporesFor(key);
   return spores.length;

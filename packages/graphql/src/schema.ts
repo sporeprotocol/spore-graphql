@@ -13,9 +13,14 @@ export const typeDefs: DocumentNode = gql`
     inheritMaxAge: Boolean
   ) on FIELD_DEFINITION | OBJECT | INTERFACE | UNION
 
-  input SporesFilterInput {
+  input SporeFilterInput {
     clusterId: String
     contentType: String
+    address: String
+  }
+
+  input ClusterFilterInput {
+    address: String
   }
 
   enum QueryOrder {
@@ -68,21 +73,26 @@ export const typeDefs: DocumentNode = gql`
     id: String
     name: String
     description: String
-    spores: [Spore]
+    spores(first: Int): [Spore]
     cell: Cell
   }
 
   type Query {
     spore(id: String!): Spore
     spores(
-      filter: SporesFilterInput
+      filter: SporeFilterInput
       first: Int = 10
       after: String
       order: QueryOrder
     ): [Spore]
-    sporeCount(filter: SporesFilterInput): Int!
+    sporeCount(filter: SporeFilterInput): Int!
     cluster(id: String!): Cluster
-    clusters(first: Int = 10, after: String, order: QueryOrder): [Cluster]
+    clusters(
+      first: Int = 10
+      after: String
+      order: QueryOrder
+      filter: ClusterFilterInput
+    ): [Cluster]
     topClusters(first: Int): [Cluster]
     clusterCount: Int!
   }
