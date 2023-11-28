@@ -42,7 +42,7 @@ export default startServerAndCreateNextHandler(
     cache,
     plugins: [
       ApolloServerPluginCacheControl({
-        defaultMaxAge: 60 * 24,
+        defaultMaxAge: 60 * 60 * 24,
       }),
       responseCachePlugin(),
     ],

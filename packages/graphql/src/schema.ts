@@ -61,20 +61,20 @@ export const typeDefs: DocumentNode = gql`
   }
 
   type Spore {
-    id: String
-    clusterId: String
-    contentType: String
-    content: String
+    id: String!
+    clusterId: String!
+    contentType: String!
+    content: String!
     cluster: Cluster
-    cell: Cell
+    cell: Cell!
   }
 
   type Cluster {
-    id: String
-    name: String
-    description: String
-    spores(first: Int): [Spore]
-    cell: Cell
+    id: String!
+    name: String!
+    description: String!
+    spores(first: Int): [Spore!]
+    cell: Cell!
   }
 
   type Query {
@@ -84,7 +84,7 @@ export const typeDefs: DocumentNode = gql`
       first: Int = 10
       after: String
       order: QueryOrder
-    ): [Spore]
+    ): [Spore!]
     sporeCount(filter: SporeFilterInput): Int!
     cluster(id: String!): Cluster
     clusters(
@@ -92,8 +92,8 @@ export const typeDefs: DocumentNode = gql`
       after: String
       order: QueryOrder
       filter: ClusterFilterInput
-    ): [Cluster]
-    topClusters(first: Int): [Cluster]
+    ): [Cluster!]
+    topClusters(first: Int): [Cluster!]
     clusterCount: Int!
   }
 `;
