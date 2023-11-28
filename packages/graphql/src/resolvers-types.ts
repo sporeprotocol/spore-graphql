@@ -129,6 +129,7 @@ export type Script = {
 
 export type Spore = {
   __typename?: 'Spore';
+  capacityMargin?: Maybe<Scalars['String']['output']>;
   cell?: Maybe<Cell>;
   cluster?: Maybe<Cluster>;
   clusterId: Scalars['String']['output'];
@@ -306,6 +307,7 @@ export type ScriptResolvers<ContextType = any, ParentType extends ResolversParen
 }>;
 
 export type SporeResolvers<ContextType = any, ParentType extends ResolversParentTypes['Spore'] = ResolversParentTypes['Spore']> = ResolversObject<{
+  capacityMargin?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   cell?: Resolver<Maybe<ResolversTypes['Cell']>, ParentType, ContextType>;
   cluster?: Resolver<Maybe<ResolversTypes['Cluster']>, ParentType, ContextType>;
   clusterId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

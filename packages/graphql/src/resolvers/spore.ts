@@ -1,7 +1,9 @@
+import { getCellCapacityMargin } from '@spore-sdk/core';
 import { ContextValue } from '../context';
 import { Spore, SporeLoadKey } from '../data-sources/spores';
 import { SporeQueryParams } from './types';
 import { getQueryParams } from './utils';
+import { BI } from '@ckb-lumos/lumos';
 
 export async function getSporeById(
   _: unknown,
@@ -20,7 +22,15 @@ export async function getSpores(
 ): Promise<Spore[]> {
   const { filter = {}, first, after, order } = getQueryParams(params);
   const { clusterId, contentType, address } = filter ?? {};
-  const key: SporeLoadKey = ['0x', order, first, after, clusterId, contentType, address];
+  const key: SporeLoadKey = [
+    '0x',
+    order,
+    first,
+    after,
+    clusterId,
+    contentType,
+    address,
+  ];
   const spores = await dataSources.spores.getSporesFor(key);
   return spores;
 }
@@ -43,4 +53,11 @@ export async function getSporeCount(
   ];
   const spores = await dataSources.spores.getSporesFor(key);
   return spores.length;
+}
+
+export async function getSporeCapacityMargin(spore: Spore) {
+  if (!spore.cell) {
+    return BI.from('0').toHexString();
+  }
+  return getCellCapacityMargin(spore.cell).toHexString();
 }

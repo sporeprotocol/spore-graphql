@@ -1,7 +1,12 @@
 import { ContextValue } from '../context';
 import { Cluster } from '../data-sources/clusters';
 import { Spore } from '../data-sources/spores';
-import { getSporeById, getSporeCount, getSpores } from './spore';
+import {
+  getSporeById,
+  getSporeCapacityMargin,
+  getSporeCount,
+  getSpores,
+} from './spore';
 import {
   getClusterById,
   getClusterCount,
@@ -31,6 +36,8 @@ export const resolvers = {
       };
       return getClusterById(undefined, params, context);
     },
+
+    capacityMargin: getSporeCapacityMargin,
   },
 
   Cluster: {

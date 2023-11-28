@@ -67,6 +67,7 @@ export const typeDefs: DocumentNode = gql`
     content: String!
     cluster: Cluster
     cell: Cell
+    capacityMargin: String
   }
 
   type Cluster {

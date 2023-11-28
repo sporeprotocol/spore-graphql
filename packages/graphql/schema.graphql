@@ -63,6 +63,7 @@ type Spore {
   content: String!
   cluster: Cluster
   cell: Cell
+  capacityMargin: String
 }
 
 type Cluster {
