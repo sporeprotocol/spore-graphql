@@ -40,7 +40,7 @@ export type CellOutput = {
 
 export type Cluster = {
   __typename?: 'Cluster';
-  cell: Cell;
+  cell?: Maybe<Cell>;
   description: Scalars['String']['output'];
   id: Scalars['String']['output'];
   name: Scalars['String']['output'];
@@ -129,7 +129,7 @@ export type Script = {
 
 export type Spore = {
   __typename?: 'Spore';
-  cell: Cell;
+  cell?: Maybe<Cell>;
   cluster?: Maybe<Cluster>;
   clusterId: Scalars['String']['output'];
   content: Scalars['String']['output'];
@@ -274,7 +274,7 @@ export type CellOutputResolvers<ContextType = any, ParentType extends ResolversP
 }>;
 
 export type ClusterResolvers<ContextType = any, ParentType extends ResolversParentTypes['Cluster'] = ResolversParentTypes['Cluster']> = ResolversObject<{
-  cell?: Resolver<ResolversTypes['Cell'], ParentType, ContextType>;
+  cell?: Resolver<Maybe<ResolversTypes['Cell']>, ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -306,7 +306,7 @@ export type ScriptResolvers<ContextType = any, ParentType extends ResolversParen
 }>;
 
 export type SporeResolvers<ContextType = any, ParentType extends ResolversParentTypes['Spore'] = ResolversParentTypes['Spore']> = ResolversObject<{
-  cell?: Resolver<ResolversTypes['Cell'], ParentType, ContextType>;
+  cell?: Resolver<Maybe<ResolversTypes['Cell']>, ParentType, ContextType>;
   cluster?: Resolver<Maybe<ResolversTypes['Cluster']>, ParentType, ContextType>;
   clusterId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

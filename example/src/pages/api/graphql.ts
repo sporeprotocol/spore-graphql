@@ -1,5 +1,5 @@
 import { startServerAndCreateNextHandler } from '@as-integrations/next';
-import { createContext, createApolloServer, ContextValue } from 'spore-graphql';
+import { createContext, createApolloServer } from 'spore-graphql';
 import responseCachePlugin from '@apollo/server-plugin-response-cache';
 import { ApolloServerPluginCacheControl } from '@apollo/server/plugin/cacheControl';
 import { KeyvAdapter } from '@apollo/utils.keyvadapter';
@@ -8,10 +8,6 @@ import Keyv, { Store } from 'keyv';
 
 export const config = {
   maxDuration: 300,
-};
-
-type CustomContext = ContextValue & {
-  disableCache?: boolean;
 };
 
 const store: Store<string> = {
@@ -37,7 +33,7 @@ const store: Store<string> = {
 const cache = new KeyvAdapter(new Keyv({ store }));
 
 export default startServerAndCreateNextHandler(
-  createApolloServer<CustomContext>({
+  createApolloServer({
     introspection: true,
     cache,
     plugins: [

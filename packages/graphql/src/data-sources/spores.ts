@@ -10,7 +10,7 @@ import {
   SporeId,
 } from './types';
 import { Cell, Indexer } from '@ckb-lumos/lumos';
-import {encodeToAddress} from './utils';
+import { encodeToAddress } from './utils';
 
 export type SporeCollectKey = [SporeId, Order];
 export type SporeLoadKey = [

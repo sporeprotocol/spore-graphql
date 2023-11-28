@@ -62,7 +62,7 @@ type Spore {
   contentType: String!
   content: String!
   cluster: Cluster
-  cell: Cell!
+  cell: Cell
 }
 
 type Cluster {
@@ -70,7 +70,7 @@ type Cluster {
   name: String!
   description: String!
   spores(first: Int): [Spore!]
-  cell: Cell!
+  cell: Cell
 }
 
 type Query {

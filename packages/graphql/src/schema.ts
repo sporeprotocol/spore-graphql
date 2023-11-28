@@ -66,7 +66,7 @@ export const typeDefs: DocumentNode = gql`
     contentType: String!
     content: String!
     cluster: Cluster
-    cell: Cell!
+    cell: Cell
   }
 
   type Cluster {
@@ -74,7 +74,7 @@ export const typeDefs: DocumentNode = gql`
     name: String!
     description: String!
     spores(first: Int): [Spore!]
-    cell: Cell!
+    cell: Cell
   }
 
   type Query {
