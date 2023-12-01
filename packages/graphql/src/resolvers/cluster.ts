@@ -22,8 +22,8 @@ export async function getClusters(
   { dataSources }: ContextValue,
 ): Promise<Cluster[]> {
   const { first, after, order, filter } = getQueryParams(params);
-  const { address } = filter ?? {};
-  const key: ClusterLoadKey = ['0x', order, first, after, address];
+  const { addresses } = filter ?? {};
+  const key: ClusterLoadKey = ['0x', order, first, after, addresses];
   const clusters = await dataSources.clusters.getClustersFor(key);
   return clusters;
 }

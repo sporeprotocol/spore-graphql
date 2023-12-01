@@ -36,12 +36,15 @@ export default startServerAndCreateNextHandler(
   createApolloServer({
     introspection: true,
     cache,
-    plugins: [
-      ApolloServerPluginCacheControl({
-        defaultMaxAge: 60 * 60 * 24,
-      }),
-      responseCachePlugin(),
-    ],
+    plugins:
+      process.env.NODE_ENV === 'production'
+        ? [
+            ApolloServerPluginCacheControl({
+              defaultMaxAge: 60 * 60,
+            }),
+            responseCachePlugin(),
+          ]
+        : [],
   }),
   {
     context: async () => createContext(),

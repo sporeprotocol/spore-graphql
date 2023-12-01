@@ -6,14 +6,14 @@ import {
   Order,
 } from '../data-sources/types';
 
-export type SporeFilter = {
-  clusterId?: ClusterId;
-  contentType?: ContentType;
+export type BaseFilter = {
   address?: string;
+  addresses?: string[];
 };
 
-export type ClusterFliter = {
-  address?: string;
+export type SporeFilter = BaseFilter & {
+  clusterIds?: ClusterId[];
+  contentTypes?: ContentType[];
 };
 
 export type BaseQueryParams = {
@@ -27,5 +27,5 @@ export type SporeQueryParams = BaseQueryParams & {
 };
 
 export type ClusterQueryParams = BaseQueryParams & {
-  filter: ClusterFliter;
+  filter: BaseFilter;
 };

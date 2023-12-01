@@ -40,6 +40,7 @@ export type CellOutput = {
 
 export type Cluster = {
   __typename?: 'Cluster';
+  capacityMargin?: Maybe<Scalars['String']['output']>;
   cell?: Maybe<Cell>;
   description: Scalars['String']['output'];
   id: Scalars['String']['output'];
@@ -53,7 +54,7 @@ export type ClusterSporesArgs = {
 };
 
 export type ClusterFilterInput = {
-  address?: InputMaybe<Scalars['String']['input']>;
+  addresses?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 export enum HashType {
@@ -132,16 +133,16 @@ export type Spore = {
   capacityMargin?: Maybe<Scalars['String']['output']>;
   cell?: Maybe<Cell>;
   cluster?: Maybe<Cluster>;
-  clusterId: Scalars['String']['output'];
+  clusterId?: Maybe<Scalars['String']['output']>;
   content: Scalars['String']['output'];
   contentType: Scalars['String']['output'];
   id: Scalars['String']['output'];
 };
 
 export type SporeFilterInput = {
-  address?: InputMaybe<Scalars['String']['input']>;
-  clusterId?: InputMaybe<Scalars['String']['input']>;
-  contentType?: InputMaybe<Scalars['String']['input']>;
+  addresses?: InputMaybe<Array<Scalars['String']['input']>>;
+  clusterIds?: InputMaybe<Array<Scalars['String']['input']>>;
+  contentTypes?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -275,6 +276,7 @@ export type CellOutputResolvers<ContextType = any, ParentType extends ResolversP
 }>;
 
 export type ClusterResolvers<ContextType = any, ParentType extends ResolversParentTypes['Cluster'] = ResolversParentTypes['Cluster']> = ResolversObject<{
+  capacityMargin?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   cell?: Resolver<Maybe<ResolversTypes['Cell']>, ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -310,7 +312,7 @@ export type SporeResolvers<ContextType = any, ParentType extends ResolversParent
   capacityMargin?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   cell?: Resolver<Maybe<ResolversTypes['Cell']>, ParentType, ContextType>;
   cluster?: Resolver<Maybe<ResolversTypes['Cluster']>, ParentType, ContextType>;
-  clusterId?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
+  clusterId?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   content?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   contentType?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;

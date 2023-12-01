@@ -14,13 +14,13 @@ export const typeDefs: DocumentNode = gql`
   ) on FIELD_DEFINITION | OBJECT | INTERFACE | UNION
 
   input SporeFilterInput {
-    clusterId: String
-    contentType: String
-    address: String
+    clusterIds: [String!]
+    contentTypes: [String!]
+    addresses: [String!]
   }
 
   input ClusterFilterInput {
-    address: String
+    addresses: [String!]
   }
 
   enum QueryOrder {
@@ -62,7 +62,7 @@ export const typeDefs: DocumentNode = gql`
 
   type Spore {
     id: String!
-    clusterId: String!
+    clusterId: String
     contentType: String!
     content: String!
     cluster: Cluster
@@ -76,6 +76,7 @@ export const typeDefs: DocumentNode = gql`
     description: String!
     spores(first: Int): [Spore!]
     cell: Cell
+    capacityMargin: String
   }
 
   type Query {

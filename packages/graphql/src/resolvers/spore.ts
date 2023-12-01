@@ -1,9 +1,7 @@
-import { getCellCapacityMargin } from '@spore-sdk/core';
 import { ContextValue } from '../context';
 import { Spore, SporeLoadKey } from '../data-sources/spores';
 import { SporeQueryParams } from './types';
 import { getQueryParams } from './utils';
-import { BI } from '@ckb-lumos/lumos';
 
 export async function getSporeById(
   _: unknown,
@@ -21,15 +19,15 @@ export async function getSpores(
   { dataSources }: ContextValue,
 ): Promise<Spore[]> {
   const { filter = {}, first, after, order } = getQueryParams(params);
-  const { clusterId, contentType, address } = filter ?? {};
+  const { clusterIds, contentTypes, addresses } = filter ?? {};
   const key: SporeLoadKey = [
     '0x',
     order,
     first,
     after,
-    clusterId,
-    contentType,
-    address,
+    clusterIds,
+    contentTypes,
+    addresses,
   ];
   const spores = await dataSources.spores.getSporesFor(key);
   return spores;
@@ -41,23 +39,17 @@ export async function getSporeCount(
   { dataSources }: ContextValue,
 ): Promise<number> {
   const { filter = {} } = getQueryParams(params);
-  const { clusterId, contentType, address } = filter ?? {};
+  const { clusterIds, contentTypes, addresses } = filter ?? {};
+
   const key: SporeLoadKey = [
     '0x',
     'desc',
     Number.MAX_SAFE_INTEGER,
     undefined,
-    clusterId,
-    contentType,
-    address,
+    clusterIds,
+    contentTypes,
+    addresses,
   ];
   const spores = await dataSources.spores.getSporesFor(key);
   return spores.length;
-}
-
-export async function getSporeCapacityMargin(spore: Spore) {
-  if (!spore.cell) {
-    return BI.from('0').toHexString();
-  }
-  return getCellCapacityMargin(spore.cell).toHexString();
 }

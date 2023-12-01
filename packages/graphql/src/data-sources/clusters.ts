@@ -8,7 +8,7 @@ import { After, ClusterId, First, Order } from './types';
 import { encodeToAddress } from './utils';
 
 export type ClusterCollectKey = [ClusterId, Order];
-export type ClusterLoadKey = [ClusterId, Order, First, After?, Address?];
+export type ClusterLoadKey = [ClusterId, Order, First, After?, Address[]?];
 
 export interface Cluster {
   id: ClusterId;
@@ -64,7 +64,7 @@ export class ClustersDataSource {
   private clustersLoader = new DataLoader(
     (keys: readonly ClusterLoadKey[]) => {
       return Promise.all(
-        keys.map(async ([id, order, first, after, address]) => {
+        keys.map(async ([id, order, first, after, addresses]) => {
           const collector = await this.clustersCollector.load([id, order]);
 
           let startCollect = !after;
@@ -79,8 +79,9 @@ export class ClustersDataSource {
             const cluster = ClustersDataSource.getClusterFromCell(cell);
 
             if (
-              address &&
-              encodeToAddress(cluster.cell.cellOutput.lock) !== address
+              addresses &&
+              addresses.length > 0 &&
+              !addresses.includes(encodeToAddress(cluster.cell.cellOutput.lock))
             ) {
               continue;
             }

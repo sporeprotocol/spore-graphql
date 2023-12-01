@@ -18,9 +18,9 @@ export type SporeLoadKey = [
   Order,
   First,
   After?,
-  ClusterId?,
-  ContentType?,
-  Address?,
+  ClusterId[]?,
+  ContentType[]?,
+  Address[]?,
 ];
 
 export interface Spore {
@@ -85,9 +85,9 @@ export class SporesDataSource {
             order,
             first,
             after,
-            clusterId,
-            contentType,
-            address,
+            clusterIds,
+            contentTypes,
+            addresses,
           ]) => {
             const collector = await this.sporesCollector.load([id, order]);
 
@@ -102,15 +102,25 @@ export class SporesDataSource {
 
               const spore = SporesDataSource.getSporeFromCell(cell);
 
-              if (clusterId && spore.clusterId !== clusterId) {
-                continue;
-              }
-              if (contentType && spore.contentType !== contentType) {
+              if (
+                clusterIds &&
+                spore.clusterId &&
+                clusterIds.length > 0 &&
+                !clusterIds.includes(spore.clusterId)
+              ) {
                 continue;
               }
               if (
-                address &&
-                encodeToAddress(spore.cell.cellOutput.lock) !== address
+                contentTypes &&
+                contentTypes.length > 0 &&
+                !contentTypes.includes(spore.contentType)
+              ) {
+                continue;
+              }
+              if (
+                addresses &&
+                addresses.length > 0 &&
+                !addresses.includes(encodeToAddress(spore.cell.cellOutput.lock))
               ) {
                 continue;
               }

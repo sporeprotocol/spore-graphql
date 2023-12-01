@@ -1,12 +1,7 @@
 import { ContextValue } from '../context';
 import { Cluster } from '../data-sources/clusters';
 import { Spore } from '../data-sources/spores';
-import {
-  getSporeById,
-  getSporeCapacityMargin,
-  getSporeCount,
-  getSpores,
-} from './spore';
+import { getSporeById, getSporeCount, getSpores } from './spore';
 import {
   getClusterById,
   getClusterCount,
@@ -14,6 +9,7 @@ import {
   getTopClusters,
 } from './cluster';
 import { SporeQueryParams } from './types';
+import { getCapacityMargin } from './utils';
 
 export const resolvers = {
   Query: {
@@ -37,7 +33,9 @@ export const resolvers = {
       return getClusterById(undefined, params, context);
     },
 
-    capacityMargin: getSporeCapacityMargin,
+    capacityMargin: async (spore: Spore) => {
+      return getCapacityMargin(spore.cell);
+    },
   },
 
   Cluster: {
@@ -48,11 +46,15 @@ export const resolvers = {
     ): Promise<Spore[]> => {
       const params = {
         filter: {
-          clusterId: cluster.id,
+          clusterIds: [cluster.id],
         },
         first: args.first ?? Number.MAX_SAFE_INTEGER,
       } as SporeQueryParams;
       return getSpores(undefined, params, context);
+    },
+
+    capacityMargin: async (cluster: Cluster) => {
+      return getCapacityMargin(cluster.cell);
     },
   },
 };
