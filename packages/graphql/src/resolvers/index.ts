@@ -8,7 +8,7 @@ import {
   getClusters,
   getTopClusters,
 } from './cluster';
-import { SporeQueryParams } from './types';
+import { ClusterQueryParams, SporeQueryParams } from './types';
 import { getCapacityMargin } from './utils';
 
 export const resolvers = {
@@ -41,14 +41,18 @@ export const resolvers = {
   Cluster: {
     spores: async (
       cluster: Cluster,
-      args: { first?: number },
+      args: ClusterQueryParams,
       context: ContextValue,
     ): Promise<Spore[]> => {
+      const { first, after, order, filter } = args;
       const params = {
         filter: {
           clusterIds: [cluster.id],
+          ...filter,
         },
-        first: args.first ?? Number.MAX_SAFE_INTEGER,
+        first: first ?? Number.MAX_SAFE_INTEGER,
+        after,
+        order,
       } as SporeQueryParams;
       return getSpores(undefined, params, context);
     },

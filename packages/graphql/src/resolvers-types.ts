@@ -113,6 +113,7 @@ export type QuerySporesArgs = {
 
 
 export type QueryTopClustersArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
   first?: InputMaybe<Scalars['Int']['input']>;
 };
 

@@ -74,7 +74,12 @@ export const typeDefs: DocumentNode = gql`
     id: String!
     name: String!
     description: String!
-    spores(first: Int): [Spore!]
+    spores(
+      filter: SporeFilterInput
+      first: Int = 10
+      after: String
+      order: QueryOrder
+    ): [Spore!]
     cell: Cell
     capacityMargin: String
   }
