@@ -28,4 +28,5 @@ export type SporeQueryParams = BaseQueryParams & {
 
 export type ClusterQueryParams = BaseQueryParams & {
   filter: BaseFilter;
+  after?: After;
 };

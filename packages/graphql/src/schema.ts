@@ -95,7 +95,7 @@ export const typeDefs: DocumentNode = gql`
       order: QueryOrder
       filter: ClusterFilterInput
     ): [Cluster!]
-    topClusters(first: Int): [Cluster!]
+    topClusters(first: Int, after: String): [Cluster!]
     clusterCount: Int!
   }
 `;

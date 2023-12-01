@@ -30,7 +30,7 @@ export async function getClusters(
 
 export async function getTopClusters(
   _: unknown,
-  { first = Number.MAX_SAFE_INTEGER }: Pick<ClusterQueryParams, 'first'>,
+  { first = Number.MAX_SAFE_INTEGER, after }: ClusterQueryParams,
   { dataSources }: ContextValue,
 ): Promise<Cluster[]> {
   const key: SporeLoadKey = ['0x', 'desc', Number.MAX_SAFE_INTEGER];
@@ -40,13 +40,16 @@ export async function getTopClusters(
     spores.filter((spore) => !!spore.clusterId),
     'clusterId',
   );
+
   const topClusterIds = Object.values(groupByCluster)
     .sort((a, b) => b.length - a.length)
-    .slice(0, first)
     .map((spores) => spores[0].clusterId as string);
 
+  const startIndex = after ? topClusterIds.indexOf(after) + 1 : 0;
+  const endIndex = startIndex + first;
+
   const clusters = await Promise.all(
-    topClusterIds.map(async (id) => {
+    topClusterIds.slice(startIndex, endIndex).map(async (id) => {
       const key: ClusterLoadKey = [id, 'desc', 1];
       const clusters = await dataSources.clusters.getClustersFor(key);
       const [cluster] = clusters;
