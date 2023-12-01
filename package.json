@@ -5,6 +5,9 @@
   "author": "Yuexun Jiang <yuexunjiang@gmail.com>",
   "license": "ISC",
   "scripts": {
-    "dev": "pnpm run --parallel dev"
+    "dev": "pnpm run --parallel dev",
+    "build": "pnpm run build --filter=spore-graphql",
+    "prepublishOnly": "pnpm run build --filter=spore-graphql",
+    "publish": "pnpm publish --access=public --filter=spore-graphql"
   }
 }
