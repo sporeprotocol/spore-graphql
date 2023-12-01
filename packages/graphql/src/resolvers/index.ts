@@ -6,6 +6,7 @@ import {
   getClusterById,
   getClusterCount,
   getClusters,
+  getMintableClusters,
   getTopClusters,
 } from './cluster';
 import { ClusterQueryParams, SporeQueryParams } from './types';
@@ -19,6 +20,7 @@ export const resolvers = {
     cluster: getClusterById,
     clusters: getClusters,
     topClusters: getTopClusters,
+    mintableClusters: getMintableClusters,
     clusterCount: getClusterCount,
   },
 

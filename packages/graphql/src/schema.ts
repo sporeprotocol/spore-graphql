@@ -101,6 +101,7 @@ export const typeDefs: DocumentNode = gql`
       filter: ClusterFilterInput
     ): [Cluster!]
     topClusters(first: Int, after: String): [Cluster!]
+    mintableClusters(address: String!): [Cluster!]
     clusterCount: Int!
   }
 `;

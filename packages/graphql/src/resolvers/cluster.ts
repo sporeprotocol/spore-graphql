@@ -4,6 +4,9 @@ import { Cluster, ClusterLoadKey } from '../data-sources/clusters';
 import { ClusterQueryParams } from './types';
 import { getQueryParams } from './utils';
 import { SporeLoadKey } from '../data-sources/spores';
+import { helpers } from '@ckb-lumos/lumos';
+import { predefinedSporeConfigs } from '@spore-sdk/core';
+import { isAnyoneCanPay, isSameScript } from '../utils';
 
 export async function getClusterById(
   _: unknown,
@@ -57,6 +60,25 @@ export async function getTopClusters(
     }),
   );
   return clusters;
+}
+
+export async function getMintableClusters(
+  _: unknown,
+  { address }: { address: string },
+  { dataSources }: ContextValue,
+): Promise<Cluster[]> {
+  const key: ClusterLoadKey = ['0x', 'desc', Number.MAX_SAFE_INTEGER];
+  const clusters = await dataSources.clusters.getClustersFor(key);
+  const lock = helpers.parseAddress(address, {
+    config: predefinedSporeConfigs.Aggron4.lumos,
+  });
+  const mintableClusters = clusters.filter(({ cell }) => {
+    return (
+      isSameScript(cell?.cellOutput.lock, lock) ||
+      isAnyoneCanPay(cell?.cellOutput.lock)
+    );
+  });
+  return mintableClusters;
 }
 
 export async function getClusterCount(

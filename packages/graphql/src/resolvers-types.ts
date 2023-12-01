@@ -50,7 +50,10 @@ export type Cluster = {
 
 
 export type ClusterSporesArgs = {
+  after?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<SporeFilterInput>;
   first?: InputMaybe<Scalars['Int']['input']>;
+  order?: InputMaybe<QueryOrder>;
 };
 
 export type ClusterFilterInput = {
@@ -282,7 +285,7 @@ export type ClusterResolvers<ContextType = any, ParentType extends ResolversPare
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  spores?: Resolver<Maybe<Array<ResolversTypes['Spore']>>, ParentType, ContextType, Partial<ClusterSporesArgs>>;
+  spores?: Resolver<Maybe<Array<ResolversTypes['Spore']>>, ParentType, ContextType, RequireFields<ClusterSporesArgs, 'first'>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

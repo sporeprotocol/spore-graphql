@@ -6,6 +6,8 @@ settings:
 
 importers:
 
+  .: {}
+
   example:
     dependencies:
       '@apollo/sandbox':
@@ -69,6 +71,9 @@ importers:
       '@apollo/server':
         specifier: ^4.9.5
         version: 4.9.5(graphql@16.8.1)
+      '@ckb-lumos/config-manager':
+        specifier: ^0.20.0
+        version: 0.20.0(cross-fetch@3.1.8)(jsbi@4.3.0)
       '@ckb-lumos/lumos':
         specifier: ^0.20.0
         version: 0.20.0(cross-fetch@3.1.8)(jsbi@4.3.0)
