@@ -102,6 +102,9 @@ export class SporesDataSource {
 
               const spore = SporesDataSource.getSporeFromCell(cell);
 
+              if (clusterIds && clusterIds.length > 0 && !spore.clusterId) {
+                continue;
+              }
               if (
                 clusterIds &&
                 spore.clusterId &&
