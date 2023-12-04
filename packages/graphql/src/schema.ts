@@ -81,7 +81,7 @@ export const typeDefs: DocumentNode = gql`
     description: String!
     spores(
       filter: SporeFilterInput
-      first: Int = 10
+      first: Int
       after: String
       order: QueryOrder
     ): [Spore!]
