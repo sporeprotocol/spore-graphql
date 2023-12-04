@@ -1,7 +1,7 @@
 import { groupBy } from 'lodash-es';
 import { ContextValue } from '../context';
 import { Cluster, ClusterLoadKey } from '../data-sources/clusters';
-import { ClusterQueryParams } from './types';
+import { ClusterQueryParams, TopClusterQueryParams } from './types';
 import { getQueryParams } from './utils';
 import { SporeLoadKey } from '../data-sources/spores';
 import { helpers } from '@ckb-lumos/lumos';
@@ -25,17 +25,26 @@ export async function getClusters(
   { dataSources }: ContextValue,
 ): Promise<Cluster[]> {
   const { first, after, order, filter } = getQueryParams(params);
-  const { addresses } = filter ?? {};
-  const key: ClusterLoadKey = ['0x', order, first, after, addresses];
+  const { addresses, mintableBy } = filter ?? {};
+  const key: ClusterLoadKey = [
+    '0x',
+    order,
+    first,
+    after,
+    addresses,
+    mintableBy,
+  ];
   const clusters = await dataSources.clusters.getClustersFor(key);
   return clusters;
 }
 
 export async function getTopClusters(
   _: unknown,
-  { first = Number.MAX_SAFE_INTEGER, after }: ClusterQueryParams,
+  params: TopClusterQueryParams,
   { dataSources }: ContextValue,
 ): Promise<Cluster[]> {
+  const { first, after, filter } = getQueryParams(params);
+  const { mintableBy } = filter ?? {};
   const key: SporeLoadKey = ['0x', 'desc', Number.MAX_SAFE_INTEGER];
   const spores = await dataSources.spores.getSporesFor(key);
 
@@ -52,14 +61,22 @@ export async function getTopClusters(
   const endIndex = startIndex + first;
 
   const clusters = await Promise.all(
-    topClusterIds.slice(startIndex, endIndex).map(async (id) => {
-      const key: ClusterLoadKey = [id, 'desc', 1];
+    topClusterIds.map(async (id) => {
+      const key: ClusterLoadKey = [
+        id,
+        'desc',
+        1,
+        undefined,
+        undefined,
+        mintableBy,
+      ];
       const clusters = await dataSources.clusters.getClustersFor(key);
       const [cluster] = clusters;
       return cluster;
     }),
   );
-  return clusters;
+
+  return clusters.filter((cluster) => !!cluster).slice(startIndex, endIndex);
 }
 
 export async function getMintableClusters(

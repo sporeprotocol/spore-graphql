@@ -16,6 +16,10 @@ export type SporeFilter = BaseFilter & {
   contentTypes?: ContentType[];
 };
 
+export type ClusterFilter = BaseFilter & {
+  mintableBy?: string;
+};
+
 export type BaseQueryParams = {
   order: Order;
   first: First;
@@ -27,6 +31,12 @@ export type SporeQueryParams = BaseQueryParams & {
 };
 
 export type ClusterQueryParams = BaseQueryParams & {
-  filter: BaseFilter;
+  filter: ClusterFilter;
   after?: After;
+};
+
+export type TopClusterQueryParams = BaseQueryParams & {
+  filter: {
+    mintableBy?: string;
+  };
 };

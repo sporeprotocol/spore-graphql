@@ -21,6 +21,11 @@ export const typeDefs: DocumentNode = gql`
 
   input ClusterFilterInput {
     addresses: [String!]
+    mintableBy: String
+  }
+
+  input TopClusterFilterInput {
+    mintableBy: String
   }
 
   enum QueryOrder {
@@ -100,7 +105,11 @@ export const typeDefs: DocumentNode = gql`
       order: QueryOrder
       filter: ClusterFilterInput
     ): [Cluster!]
-    topClusters(first: Int, after: String): [Cluster!]
+    topClusters(
+      first: Int
+      after: String
+      filter: TopClusterFilterInput
+    ): [Cluster!]
     mintableClusters(address: String!): [Cluster!]
     clusterCount: Int!
   }

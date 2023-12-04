@@ -1,14 +1,22 @@
 import DataLoader from 'dataloader';
-import { Address, Cell, Indexer } from '@ckb-lumos/lumos';
+import { Address, Cell, Indexer, helpers } from '@ckb-lumos/lumos';
 import {
   predefinedSporeConfigs,
   unpackToRawClusterData,
 } from '@spore-sdk/core';
 import { After, ClusterId, First, Order } from './types';
 import { encodeToAddress } from './utils';
+import { isAnyoneCanPay, isSameScript } from '../utils';
 
 export type ClusterCollectKey = [ClusterId, Order];
-export type ClusterLoadKey = [ClusterId, Order, First, After?, Address[]?];
+export type ClusterLoadKey = [
+  ClusterId,
+  Order,
+  First,
+  After?,
+  Address[]?,
+  Address?,
+];
 
 export interface Cluster {
   id: ClusterId;
@@ -64,7 +72,7 @@ export class ClustersDataSource {
   private clustersLoader = new DataLoader(
     (keys: readonly ClusterLoadKey[]) => {
       return Promise.all(
-        keys.map(async ([id, order, first, after, addresses]) => {
+        keys.map(async ([id, order, first, after, addresses, mintableBy]) => {
           const collector = await this.clustersCollector.load([id, order]);
 
           let startCollect = !after;
@@ -84,6 +92,18 @@ export class ClustersDataSource {
               !addresses.includes(encodeToAddress(cluster.cell.cellOutput.lock))
             ) {
               continue;
+            }
+
+            if (mintableBy) {
+              const lock = helpers.parseAddress(mintableBy, {
+                config: predefinedSporeConfigs.Aggron4.lumos,
+              });
+              const isMintable =
+                isSameScript(cluster.cell.cellOutput.lock, lock) ||
+                isAnyoneCanPay(cluster.cell.cellOutput.lock);
+              if (!isMintable) {
+                continue;
+              }
             }
 
             clusters.push(cluster);

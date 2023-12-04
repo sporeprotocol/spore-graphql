@@ -58,6 +58,7 @@ export type ClusterSporesArgs = {
 
 export type ClusterFilterInput = {
   addresses?: InputMaybe<Array<Scalars['String']['input']>>;
+  mintableBy?: InputMaybe<Scalars['String']['input']>;
 };
 
 export enum HashType {
@@ -123,6 +124,7 @@ export type QuerySporesArgs = {
 
 export type QueryTopClustersArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<TopClusterFilterInput>;
   first?: InputMaybe<Scalars['Int']['input']>;
 };
 
@@ -153,6 +155,10 @@ export type SporeFilterInput = {
   addresses?: InputMaybe<Array<Scalars['String']['input']>>;
   clusterIds?: InputMaybe<Array<Scalars['String']['input']>>;
   contentTypes?: InputMaybe<Array<Scalars['String']['input']>>;
+};
+
+export type TopClusterFilterInput = {
+  mintableBy?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type WithIndex<TObject> = TObject & Record<string, any>;
@@ -242,6 +248,7 @@ export type ResolversTypes = ResolversObject<{
   Spore: ResolverTypeWrapper<Spore>;
   SporeFilterInput: SporeFilterInput;
   String: ResolverTypeWrapper<Scalars['String']['output']>;
+  TopClusterFilterInput: TopClusterFilterInput;
 }>;
 
 /** Mapping between all available schema types and the resolvers parents */
@@ -258,6 +265,7 @@ export type ResolversParentTypes = ResolversObject<{
   Spore: Spore;
   SporeFilterInput: SporeFilterInput;
   String: Scalars['String']['output'];
+  TopClusterFilterInput: TopClusterFilterInput;
 }>;
 
 export type CacheControlDirectiveArgs = {
