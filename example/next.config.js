@@ -1,3 +1,5 @@
+const path = require('path');
+
 /** @type {import('next').NextConfig} */
 const nextConfig = {
   reactStrictMode: true,
@@ -20,6 +22,14 @@ const nextConfig = {
         ],
       },
     ];
+  },
+  webpack: (config) => {
+    config.resolve.alias = {
+      ...config.resolve.alias,
+      'cross-fetch': path.resolve(__dirname, './fetch.ponyfill.js'),
+    };
+
+    return config;
   },
 };
 
