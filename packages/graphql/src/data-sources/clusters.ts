@@ -1,22 +1,12 @@
 import DataLoader from 'dataloader';
 import { Address, Cell, Indexer, helpers } from '@ckb-lumos/lumos';
-import {
-  predefinedSporeConfigs,
-  unpackToRawClusterData,
-} from '@spore-sdk/core';
+import { predefinedSporeConfigs, unpackToRawClusterData } from '@spore-sdk/core';
 import { After, ClusterId, First, Order } from './types';
 import { encodeToAddress } from './utils';
 import { isAnyoneCanPay, isSameScript } from '../utils';
 
 export type ClusterCollectKey = [ClusterId, Order];
-export type ClusterLoadKey = [
-  ClusterId,
-  Order,
-  First,
-  After?,
-  Address[]?,
-  Address?,
-];
+export type ClusterLoadKey = [ClusterId, Order, First, After?, Address[]?, Address?];
 
 export interface Cluster {
   id: ClusterId;
@@ -63,14 +53,13 @@ export class ClustersDataSource {
       );
     },
     {
-      cacheKeyFn: (key) => {
-        return `clustersCollector-${key.join('-')}`;
-      },
+      cacheKeyFn: (key) => `clustersCollector-${key.join('-')}`,
     },
   );
 
   private clustersLoader = new DataLoader(
     (keys: readonly ClusterLoadKey[]) => {
+      this.clustersLoader.clearAll();
       return Promise.all(
         keys.map(async ([id, order, first, after, addresses, mintableBy]) => {
           const collector = await this.clustersCollector.load([id, order]);
@@ -116,9 +105,7 @@ export class ClustersDataSource {
       );
     },
     {
-      cacheKeyFn: (key) => {
-        return `clustersLoader-${key.join('-')}`;
-      },
+      cacheKeyFn: (key) => `clustersLoader-${key.join('-')}`,
     },
   );
 

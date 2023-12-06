@@ -70,14 +70,13 @@ export class SporesDataSource {
       );
     },
     {
-      cacheKeyFn: (key) => {
-        return `sporesCollector-${key.join('-')}`;
-      },
+      cacheKeyFn: (key) => `sporesCollector-${key.join('-')}`,
     },
   );
 
   sporesLoader = new DataLoader(
     (keys: readonly SporeLoadKey[]) => {
+      this.sporesLoader.clearAll();
       return Promise.all(
         keys.map(
           async ([
@@ -139,9 +138,7 @@ export class SporesDataSource {
       );
     },
     {
-      cacheKeyFn: (key) => {
-        return `sporesLoader-${key.join('-')}`;
-      },
+      cacheKeyFn: (key) =>  `sporesLoader-${key.join('-')}`,
     },
   );
 
