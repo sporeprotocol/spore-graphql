@@ -1,7 +1,7 @@
 {
   "name": "spore-graphql",
-  "version": "0.1.0-beta.32",
-  "description": "A GraphQL layer for Spore Protocol",
+  "version": "0.1.0",
+  "description": "A Graphql Layer designed to simplify Spore data queries",
   "type": "module",
   "module": "./lib/index.js",
   "types": "./lib/index.d.ts",
