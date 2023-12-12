@@ -20,15 +20,7 @@ export async function getSpores(
 ): Promise<Spore[]> {
   const { filter = {}, first, after, order } = getQueryParams(params);
   const { clusterIds, contentTypes, addresses } = filter ?? {};
-  const key: SporeLoadKey = [
-    '0x',
-    order,
-    first,
-    after,
-    clusterIds,
-    contentTypes,
-    addresses,
-  ];
+  const key: SporeLoadKey = ['0x', order, first, after, clusterIds, contentTypes, addresses];
   const spores = await dataSources.spores.getSporesFor(key);
   return spores;
 }

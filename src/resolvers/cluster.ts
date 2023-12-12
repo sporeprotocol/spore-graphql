@@ -26,14 +26,7 @@ export async function getClusters(
 ): Promise<Cluster[]> {
   const { first, after, order, filter } = getQueryParams(params);
   const { addresses, mintableBy } = filter ?? {};
-  const key: ClusterLoadKey = [
-    '0x',
-    order,
-    first,
-    after,
-    addresses,
-    mintableBy,
-  ];
+  const key: ClusterLoadKey = ['0x', order, first, after, addresses, mintableBy];
   const clusters = await dataSources.clusters.getClustersFor(key);
   return clusters;
 }
@@ -62,14 +55,7 @@ export async function getTopClusters(
 
   const clusters = await Promise.all(
     topClusterIds.map(async (id) => {
-      const key: ClusterLoadKey = [
-        id,
-        'desc',
-        1,
-        undefined,
-        undefined,
-        mintableBy,
-      ];
+      const key: ClusterLoadKey = [id, 'desc', 1, undefined, undefined, mintableBy];
       const clusters = await dataSources.clusters.getClustersFor(key);
       const [cluster] = clusters;
       return cluster;
@@ -90,10 +76,7 @@ export async function getMintableClusters(
     config: predefinedSporeConfigs.Aggron4.lumos,
   });
   const mintableClusters = clusters.filter(({ cell }) => {
-    return (
-      isSameScript(cell?.cellOutput.lock, lock) ||
-      isAnyoneCanPay(cell?.cellOutput.lock)
-    );
+    return isSameScript(cell?.cellOutput.lock, lock) || isAnyoneCanPay(cell?.cellOutput.lock);
   });
   return mintableClusters;
 }
@@ -103,12 +86,7 @@ export async function getClusterCount(
   __: unknown,
   { dataSources }: ContextValue,
 ): Promise<number> {
-  const key: ClusterLoadKey = [
-    '0x',
-    'desc',
-    Number.MAX_SAFE_INTEGER,
-    undefined,
-  ];
+  const key: ClusterLoadKey = ['0x', 'desc', Number.MAX_SAFE_INTEGER, undefined];
   const clusters = await dataSources.clusters.getClustersFor(key);
   return clusters.length;
 }

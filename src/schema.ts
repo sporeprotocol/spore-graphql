@@ -79,24 +79,14 @@ export const typeDefs: DocumentNode = gql`
     id: String!
     name: String!
     description: String!
-    spores(
-      filter: SporeFilterInput
-      first: Int
-      after: String
-      order: QueryOrder
-    ): [Spore!]
+    spores(filter: SporeFilterInput, first: Int, after: String, order: QueryOrder): [Spore!]
     cell: Cell
     capacityMargin: String
   }
 
   type Query {
     spore(id: String!): Spore
-    spores(
-      filter: SporeFilterInput
-      first: Int = 10
-      after: String
-      order: QueryOrder
-    ): [Spore!]
+    spores(filter: SporeFilterInput, first: Int = 10, after: String, order: QueryOrder): [Spore!]
     sporeCount(filter: SporeFilterInput): Int!
     cluster(id: String!): Cluster
     clusters(
@@ -105,11 +95,7 @@ export const typeDefs: DocumentNode = gql`
       order: QueryOrder
       filter: ClusterFilterInput
     ): [Cluster!]
-    topClusters(
-      first: Int
-      after: String
-      filter: TopClusterFilterInput
-    ): [Cluster!]
+    topClusters(first: Int, after: String, filter: TopClusterFilterInput): [Cluster!]
     mintableClusters(address: String!): [Cluster!]
     clusterCount: Int!
   }

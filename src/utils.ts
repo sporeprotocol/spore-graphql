@@ -2,8 +2,7 @@ import { Script } from '@ckb-lumos/lumos';
 import { ScriptConfig } from '@ckb-lumos/config-manager';
 import { predefinedSporeConfigs } from '@spore-sdk/core';
 
-type ScriptName =
-  keyof (typeof predefinedSporeConfigs)['Aggron4']['lumos']['SCRIPTS'];
+type ScriptName = keyof (typeof predefinedSporeConfigs)['Aggron4']['lumos']['SCRIPTS'];
 
 export function getScriptConfig(name: ScriptName): ScriptConfig | undefined {
   const script = predefinedSporeConfigs.Aggron4.lumos.SCRIPTS[name];
@@ -16,8 +15,7 @@ export function isOmnilockScript(script: Script) {
     return false;
   }
   return (
-    script.codeHash === omnilockScript.CODE_HASH &&
-    script.hashType === omnilockScript.HASH_TYPE
+    script.codeHash === omnilockScript.CODE_HASH && script.hashType === omnilockScript.HASH_TYPE
   );
 }
 
@@ -32,10 +30,7 @@ export function isAnyoneCanPayScript(script: Script) {
   );
 }
 
-export function isSameScript(
-  script1: Script | undefined,
-  script2: Script | undefined,
-) {
+export function isSameScript(script1: Script | undefined, script2: Script | undefined) {
   if (!script1 || !script2) {
     return false;
   }

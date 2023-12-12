@@ -1,10 +1,4 @@
-import {
-  After,
-  ClusterId,
-  ContentType,
-  First,
-  Order,
-} from '../data-sources/types';
+import { After, ClusterId, ContentType, First, Order } from '../data-sources/types';
 
 export type BaseFilter = {
   address?: string;
