@@ -19,7 +19,7 @@ npm install spore-graphql @spore-sdk/core --save
   import { startSporeServerNextHandler } from 'spore-graphql/next';
   import { predefinedSporeConfigs } from '@spore-sdk/core';
   
-  const handler = startServerAndCreateNextHandler(predefinedSporeConfigs.Aggron4);
+  const handler = startSporeServerNextHandler(predefinedSporeConfigs.Aggron4);
   export { handler as GET, handler as POST };
   ```
   
