@@ -1,6 +1,6 @@
 {
   "name": "spore-graphql",
-  "version": "0.1.1",
+  "version": "0.1.2",
   "description": "A Graphql Layer designed to simplify Spore data queries",
   "type": "module",
   "module": "./lib/index.js",
@@ -9,6 +9,10 @@
     "./next": {
       "types": "./lib/next.d.ts",
       "default": "./lib/next.js"
+    },
+    ".": {
+      "types": "./lib/index.d.ts",
+      "default": "./lib/index.js"
     }
   },
   "author": "Yuexun Jiang <yuexunjiang@cryptape.com>",
