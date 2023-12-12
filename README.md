@@ -13,8 +13,6 @@ npm install spore-graphql @spore-sdk/core --save
 ## How to use
 
 - Integrating into your application (using Next.js as an example)
-  
-  We use [@as-integrations/next](https://github.com/apollo-server-integrations/apollo-server-integration-next) provided by Apollo GraphQL for integration, other frameworks can find relevant integration libraries under [apollo-server-integrations](https://github.com/apollo-server-integrations).
 
   ```typescript
   // app/api/graphql/route.js
