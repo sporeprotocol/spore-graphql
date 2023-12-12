@@ -6,4 +6,6 @@ export const config = {
   maxDuration: 300,
 };
 
-export default startSporeServerNextHandler(predefinedSporeConfigs.Aggron4);
+export default startSporeServerNextHandler(predefinedSporeConfigs.Aggron4, {
+  introspection: true,
+});
