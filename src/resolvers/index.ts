@@ -1,6 +1,4 @@
 import { ContextValue } from '../context';
-import { Cluster } from '../data-sources/clusters';
-import { Spore } from '../data-sources/spores';
 import { getSporeById, getSporeCount, getSpores } from './spore';
 import {
   getClusterById,
@@ -11,6 +9,7 @@ import {
 } from './cluster';
 import { ClusterQueryParams, SporeQueryParams } from './types';
 import { getCapacityMargin } from './utils';
+import { Cluster, Spore } from '../data-sources/types';
 
 export const resolvers = {
   Query: {

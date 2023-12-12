@@ -7,7 +7,7 @@ Spore Graphql is a Graphql Layer designed to simplify Spore data queries. It can
 Install `spore-graphql` as a dependency using any package manager, such as `npm`:
 
 ```shell
-npm install spore-graphql
+npm install spore-graphql @spore-sdk/core --save
 ```
 
 ## How to use
@@ -18,15 +18,10 @@ npm install spore-graphql
 
   ```typescript
   // app/api/graphql/route.js
-  import { startServerAndCreateNextHandler } from '@as-integrations/next';
-  import { createContext, createApolloServer } from 'spore-graphql';
-
+  import { startSporeServerNextHandler } from 'spore-graphql/next';
+  import { predefinedSporeConfigs } from '@spore-sdk/core';
   
-  const server = createApolloServer();
-  const handler = startServerAndCreateNextHandler(server, {
-    context: async () => createContext(),
-  });
-  
+  const handler = startServerAndCreateNextHandler(predefinedSporeConfigs.Aggron4);
   export { handler as GET, handler as POST };
   ```
   

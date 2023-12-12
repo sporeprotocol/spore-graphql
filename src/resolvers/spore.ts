@@ -1,8 +1,11 @@
 import { ContextValue } from '../context';
-import { Spore, SporeLoadKey } from '../data-sources/spores';
+import { Spore, SporeLoadKey } from '../data-sources/types';
 import { SporeQueryParams } from './types';
 import { getQueryParams } from './utils';
 
+/**
+ * Get the spore by id
+ */
 export async function getSporeById(
   _: unknown,
   { id }: { id: string },
@@ -13,6 +16,9 @@ export async function getSporeById(
   return spore;
 }
 
+/**
+ * Get the spores
+ */
 export async function getSpores(
   _: unknown,
   params: SporeQueryParams,
@@ -25,6 +31,9 @@ export async function getSpores(
   return spores;
 }
 
+/**
+ * Get the count of spores
+ */
 export async function getSporeCount(
   _: unknown,
   params: SporeQueryParams,

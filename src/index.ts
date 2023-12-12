@@ -1,5 +1,5 @@
 import { ApolloServer, ApolloServerOptions } from '@apollo/server';
-import { typeDefs } from './schema';
+import { typeDefs } from './type-defs';
 import { resolvers } from './resolvers';
 import { ContextValue, createContext } from './context';
 
@@ -7,7 +7,7 @@ export * from './resolvers-types';
 export type { ContextValue };
 export { createContext };
 
-type CreateApolloServerOptions = Partial<
+export type CreateApolloServerOptions = Partial<
   Omit<ApolloServerOptions<ContextValue>, 'typeDefs' | 'resolvers' | 'schema' | 'gateway'>
 >;
 

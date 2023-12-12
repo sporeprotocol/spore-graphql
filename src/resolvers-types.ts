@@ -299,7 +299,7 @@ export type ClusterResolvers<ContextType = any, ParentType extends ResolversPare
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   id?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   name?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
-  spores?: Resolver<Maybe<Array<ResolversTypes['Spore']>>, ParentType, ContextType, RequireFields<ClusterSporesArgs, 'first'>>;
+  spores?: Resolver<Maybe<Array<ResolversTypes['Spore']>>, ParentType, ContextType, Partial<ClusterSporesArgs>>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 

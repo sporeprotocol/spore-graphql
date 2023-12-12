@@ -1,38 +1,13 @@
 import DataLoader from 'dataloader';
-import { predefinedSporeConfigs, unpackToRawSporeData } from '@spore-sdk/core';
-import { Address, After, ClusterId, ContentType, First, Order, SporeId } from './types';
-import { Cell, Indexer } from '@ckb-lumos/lumos';
-import { encodeToAddress } from './utils';
+import { unpackToRawSporeData } from '@spore-sdk/core';
+import { Cell } from '@ckb-lumos/lumos';
+import { BaseDataSource } from './base';
+import { ISporesDataSource } from './interface';
+import { Spore, SporeLoadKey } from './types';
+import { encodeToAddress } from '../utils';
 
-export type SporeCollectKey = [SporeId, Order];
-export type SporeLoadKey = [
-  SporeId,
-  Order,
-  First,
-  After?,
-  ClusterId[]?,
-  ContentType[]?,
-  Address[]?,
-];
-
-export interface Spore {
-  id: SporeId;
-  clusterId: string | undefined;
-  contentType: string;
-  content: string;
-  cell: Cell;
-}
-
-export class SporesDataSource {
-  private indexer: Indexer;
-  private script = predefinedSporeConfigs.Aggron4.scripts.Spore.script;
-
-  constructor() {
-    this.indexer = new Indexer(
-      predefinedSporeConfigs.Aggron4.ckbIndexerUrl,
-      predefinedSporeConfigs.Aggron4.ckbNodeUrl,
-    );
-  }
+export class SporesDataSource extends BaseDataSource implements ISporesDataSource {
+  public script = this.config.scripts.Spore.script;
 
   public static getSporeFromCell(cell: Cell): Spore {
     const rawSporeData = unpackToRawSporeData(cell.data);
@@ -46,37 +21,17 @@ export class SporesDataSource {
     return spore;
   }
 
-  private sporesCollector = new DataLoader(
-    (keys: readonly SporeCollectKey[]) => {
-      return Promise.all(
-        keys.map(async ([id, order]) => {
-          const collector = this.indexer.collector({
-            type: {
-              ...this.script,
-              args: id,
-            },
-            order,
-          });
-          return collector;
-        }),
-      );
-    },
-    {
-      cacheKeyFn: (key) => `sporesCollector-${key.join('-')}`,
-    },
-  );
-
-  sporesLoader = new DataLoader(
+  private sporesLoader = new DataLoader(
     (keys: readonly SporeLoadKey[]) => {
-      this.sporesLoader.clearAll();
       return Promise.all(
         keys.map(async ([id, order, first, after, clusterIds, contentTypes, addresses]) => {
-          const collector = await this.sporesCollector.load([id, order]);
+          const collector = await this.collector.load([id, order]);
 
           let startCollect = !after;
           const spores: Spore[] = [];
           for await (const cell of collector.collect()) {
             const id = cell.cellOutput.type?.args ?? '0x';
+            // skip the cells before the after id
             if (!startCollect) {
               startCollect = id === after;
               continue;
@@ -84,6 +39,7 @@ export class SporesDataSource {
 
             const spore = SporesDataSource.getSporeFromCell(cell);
 
+            // check the cluster id of the spore
             if (clusterIds && clusterIds.length > 0 && !spore.clusterId) {
               continue;
             }
@@ -95,6 +51,8 @@ export class SporesDataSource {
             ) {
               continue;
             }
+
+            // check the content type of the spore
             if (
               contentTypes &&
               contentTypes.length > 0 &&
@@ -102,15 +60,18 @@ export class SporesDataSource {
             ) {
               continue;
             }
+
+            // check the address of the spore
             if (
               addresses &&
               addresses.length > 0 &&
-              !addresses.includes(encodeToAddress(spore.cell.cellOutput.lock))
+              !addresses.includes(encodeToAddress(spore.cell.cellOutput.lock, this.config))
             ) {
               continue;
             }
 
             spores.push(spore);
+            // break the loop if the spores length is enough
             if (spores.length >= first) {
               break;
             }
@@ -120,7 +81,10 @@ export class SporesDataSource {
       );
     },
     {
-      cacheKeyFn: (key) => `sporesLoader-${key.join('-')}`,
+      cacheKeyFn: (key) => {
+        const seconds = Math.floor(Date.now() / 1000);
+        return `spores-${key.join('-')}-${seconds}`;
+      },
     },
   );
 

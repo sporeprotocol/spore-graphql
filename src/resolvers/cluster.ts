@@ -1,13 +1,15 @@
 import { groupBy } from 'lodash-es';
 import { ContextValue } from '../context';
-import { Cluster, ClusterLoadKey } from '../data-sources/clusters';
 import { ClusterQueryParams, TopClusterQueryParams } from './types';
 import { getQueryParams } from './utils';
-import { SporeLoadKey } from '../data-sources/spores';
 import { helpers } from '@ckb-lumos/lumos';
 import { predefinedSporeConfigs } from '@spore-sdk/core';
 import { isAnyoneCanPay, isSameScript } from '../utils';
+import { Cluster, ClusterLoadKey, SporeLoadKey } from '../data-sources/types';
 
+/**
+ * Get the cluster by id
+ */
 export async function getClusterById(
   _: unknown,
   { id }: { id: string },
@@ -19,6 +21,9 @@ export async function getClusterById(
   return cluster;
 }
 
+/**
+ * Get the clusters
+ */
 export async function getClusters(
   _: unknown,
   params: ClusterQueryParams,
@@ -31,6 +36,9 @@ export async function getClusters(
   return clusters;
 }
 
+/**
+ * Get the top clusters by the number of spores
+ */
 export async function getTopClusters(
   _: unknown,
   params: TopClusterQueryParams,
@@ -65,6 +73,9 @@ export async function getTopClusters(
   return clusters.filter((cluster) => !!cluster).slice(startIndex, endIndex);
 }
 
+/**
+ * Get the clusters that can be minted by the given address
+ */
 export async function getMintableClusters(
   _: unknown,
   { address }: { address: string },
@@ -81,6 +92,9 @@ export async function getMintableClusters(
   return mintableClusters;
 }
 
+/**
+ * Get the count of clusters
+ */
 export async function getClusterCount(
   _: unknown,
   __: unknown,

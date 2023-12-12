@@ -1,11 +1,18 @@
-import { Script } from '@ckb-lumos/lumos';
+import { Script, helpers } from '@ckb-lumos/lumos';
 import { ScriptConfig } from '@ckb-lumos/config-manager';
 import { predefinedSporeConfigs } from '@spore-sdk/core';
 
-type ScriptName = keyof (typeof predefinedSporeConfigs)['Aggron4']['lumos']['SCRIPTS'];
+export function encodeToAddress(script: Script, config = predefinedSporeConfigs.Aggron4) {
+  return helpers.encodeToAddress(script, {
+    config: config.lumos,
+  });
+}
 
-export function getScriptConfig(name: ScriptName): ScriptConfig | undefined {
-  const script = predefinedSporeConfigs.Aggron4.lumos.SCRIPTS[name];
+export function getScriptConfig(
+  name: string,
+  config = predefinedSporeConfigs.Aggron4,
+): ScriptConfig | undefined {
+  const script = config.lumos.SCRIPTS[name];
   return script;
 }
 
