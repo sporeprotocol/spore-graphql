@@ -4,7 +4,8 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "next build",
+    "build": "npm run prebuild && next build",
+    "prebuild": "cd node_modules/spore-graphql && npm run build && cd ../..",
     "start": "next start",
     "lint": "next lint"
   },
