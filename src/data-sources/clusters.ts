@@ -1,13 +1,13 @@
 import DataLoader from 'dataloader';
 import { Cell, helpers } from '@ckb-lumos/lumos';
-import { unpackToRawClusterData } from '@spore-sdk/core';
+import { unpackToRawClusterData, getSporeScript } from '@spore-sdk/core';
 import { encodeToAddress, isAnyoneCanPay, isSameScript } from '../utils';
 import { BaseDataSource } from './base';
 import { IClustersDataSource } from './interface';
 import { Cluster, ClusterLoadKey } from './types';
 
 export class ClustersDataSource extends BaseDataSource implements IClustersDataSource {
-  public script = this.config.scripts.Cluster.script;
+  public script = getSporeScript(this.config, 'Cluster').script;
 
   public static getClusterFromCell(cell: Cell): Cluster {
     const rawClusterData = unpackToRawClusterData(cell.data);
