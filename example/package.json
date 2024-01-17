@@ -1,6 +1,6 @@
 {
   "name": "example",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "private": true,
   "scripts": {
     "dev": "next dev",
@@ -13,7 +13,6 @@
     "@apollo/sandbox": "^2.5.1",
     "@apollo/server": "^4.9.5",
     "@as-integrations/next": "^3.0.0",
-    "@spore-sdk/core": "0.1.0-beta.14",
     "next": "14.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
