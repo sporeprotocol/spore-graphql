@@ -21,8 +21,8 @@ importers:
         specifier: ^0.22.0-next.3
         version: 0.22.0-next.3
       '@spore-sdk/core':
-        specifier: 0.2.0-beta.0
-        version: 0.2.0-beta.0
+        specifier: ^0.2.0-beta.1
+        version: 0.2.0-beta.1
       dataloader:
         specifier: ^2.2.2
         version: 2.2.2
@@ -2023,8 +2023,8 @@ packages:
       - encoding
     dev: false
 
-  /@spore-sdk/core@0.2.0-beta.0:
-    resolution: {integrity: sha512-XGUw1knNhL+dqa1VCnOakDlBl1vr0PgyziuU8GExokqtr1ed+P9sZDL+2QqlXu5azzCGRp+84j1jom/AdE1f+A==}
+  /@spore-sdk/core@0.2.0-beta.1:
+    resolution: {integrity: sha512-i0oG0dzXwSaS2kGxKNK5cbgjZpwii9b9vPuZXby2fumYWO0Hw0EuwRtMo3CensuxRlTOSkmdizBBYT79guuN3A==}
     dependencies:
       '@ckb-lumos/base': 0.22.0-next.3
       '@ckb-lumos/bi': 0.22.0-next.3
