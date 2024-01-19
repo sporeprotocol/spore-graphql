@@ -55,7 +55,7 @@ export class ClustersDataSource extends BaseDataSource implements IClustersDataS
               // check the lock script of the cluster, only the same lock script or anyone-can-pay lock script is mintable
               const isMintable =
                 isSameScript(cluster.cell.cellOutput.lock, lock) ||
-                isAnyoneCanPay(cluster.cell.cellOutput.lock);
+                isAnyoneCanPay(cluster.cell.cellOutput.lock, this.config);
               if (!isMintable) {
                 continue;
               }

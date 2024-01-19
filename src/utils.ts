@@ -1,8 +1,8 @@
 import { Script, helpers } from '@ckb-lumos/lumos';
 import { ScriptConfig } from '@ckb-lumos/config-manager';
-import { predefinedSporeConfigs } from '@spore-sdk/core';
+import { SporeConfig } from '@spore-sdk/core';
 
-export function encodeToAddress(script: Script, config = predefinedSporeConfigs.Aggron4) {
+export function encodeToAddress(script: Script, config: SporeConfig<string>) {
   return helpers.encodeToAddress(script, {
     config: config.lumos,
   });
@@ -10,14 +10,14 @@ export function encodeToAddress(script: Script, config = predefinedSporeConfigs.
 
 export function getScriptConfig(
   name: string,
-  config = predefinedSporeConfigs.Aggron4,
+  config: SporeConfig<string>,
 ): ScriptConfig | undefined {
   const script = config.lumos.SCRIPTS[name];
   return script;
 }
 
-export function isOmnilockScript(script: Script) {
-  const omnilockScript = getScriptConfig('OMNILOCK');
+export function isOmnilockScript(script: Script, config: SporeConfig<string>) {
+  const omnilockScript = getScriptConfig('OMNILOCK', config);
   if (!omnilockScript) {
     return false;
   }
@@ -26,8 +26,8 @@ export function isOmnilockScript(script: Script) {
   );
 }
 
-export function isAnyoneCanPayScript(script: Script) {
-  const anyoneCanPayLockScript = getScriptConfig('ANYONE_CAN_PAY');
+export function isAnyoneCanPayScript(script: Script, config: SporeConfig<string>) {
+  const anyoneCanPayLockScript = getScriptConfig('ANYONE_CAN_PAY', config);
   if (!anyoneCanPayLockScript) {
     return false;
   }
@@ -48,13 +48,13 @@ export function isSameScript(script1: Script | undefined, script2: Script | unde
   );
 }
 
-export function isAnyoneCanPay(script: Script | undefined) {
+export function isAnyoneCanPay(script: Script | undefined, config: SporeConfig<string>) {
   if (!script) {
     return false;
   }
-  if (isOmnilockScript(script)) {
+  if (isOmnilockScript(script, config)) {
     return script.args.slice(44, 46) === '02';
   }
 
-  return isAnyoneCanPayScript(script);
+  return isAnyoneCanPayScript(script, config);
 }
