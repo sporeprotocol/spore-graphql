@@ -3,7 +3,6 @@ import { ContextValue } from '../context';
 import { ClusterQueryParams, TopClusterQueryParams } from './types';
 import { getQueryParams } from './utils';
 import { helpers } from '@ckb-lumos/lumos';
-import { predefinedSporeConfigs } from '@spore-sdk/core';
 import { isAnyoneCanPay, isSameScript } from '../utils';
 import { Cluster, ClusterLoadKey } from '../data-sources/types';
 
@@ -78,15 +77,17 @@ export async function getTopClusters(
 export async function getMintableClusters(
   _: unknown,
   { address }: { address: string },
-  { dataSources }: ContextValue,
+  { dataSources, config }: ContextValue,
 ): Promise<Cluster[]> {
   const key: ClusterLoadKey = ['0x', 'desc', Number.MAX_SAFE_INTEGER];
   const clusters = await dataSources.clusters.getClustersFor(key);
   const lock = helpers.parseAddress(address, {
-    config: predefinedSporeConfigs.Aggron4.lumos,
+    config: config.lumos,
   });
   const mintableClusters = clusters.filter(({ cell }) => {
-    return isSameScript(cell?.cellOutput.lock, lock) || isAnyoneCanPay(cell?.cellOutput.lock);
+    return (
+      isSameScript(cell?.cellOutput.lock, lock) || isAnyoneCanPay(cell?.cellOutput.lock, config)
+    );
   });
   return mintableClusters;
 }
