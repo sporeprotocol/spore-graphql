@@ -20,11 +20,11 @@
     "spore-graphql": "link:.."
   },
   "devDependencies": {
-    "@types/node": "^20",
-    "@types/react": "^18.2.0",
-    "@types/react-dom": "^18.2.0",
-    "eslint": "^8",
+    "@types/node": "^20.11.5",
+    "@types/react": "^18.2.48",
+    "@types/react-dom": "^18.2.18",
+    "eslint": "^8.56.0",
     "eslint-config-next": "14.0.3",
-    "typescript": "^5"
+    "typescript": "^5.3.3"
   }
 }
