@@ -5,7 +5,7 @@ import { getQueryParams } from './utils';
 import { helpers } from '@ckb-lumos/lumos';
 import { predefinedSporeConfigs } from '@spore-sdk/core';
 import { isAnyoneCanPay, isSameScript } from '../utils';
-import { Cluster, ClusterLoadKey, SporeLoadKey } from '../data-sources/types';
+import { Cluster, ClusterLoadKey } from '../data-sources/types';
 
 /**
  * Get the cluster by id
@@ -46,31 +46,30 @@ export async function getTopClusters(
 ): Promise<Cluster[]> {
   const { first, after, filter } = getQueryParams(params);
   const { mintableBy } = filter ?? {};
-  const key: SporeLoadKey = ['0x', 'desc', Number.MAX_SAFE_INTEGER];
-  const spores = await dataSources.spores.getSporesFor(key);
+  const [spores, clusters] = await Promise.all([
+    dataSources.spores.getSporesFor(['0x', 'desc', Number.MAX_SAFE_INTEGER]),
+    dataSources.clusters.getClustersFor([
+      '0x',
+      'desc',
+      Number.MAX_SAFE_INTEGER,
+      undefined,
+      undefined,
+      mintableBy,
+    ]),
+  ]);
+  const groupByCluster = groupBy(spores, 'clusterId');
 
-  const groupByCluster = groupBy(
-    spores.filter((spore) => !!spore.clusterId),
-    'clusterId',
-  );
+  const topClusters = clusters.sort((a, b) => {
+    const aSpores = groupByCluster[a.id] ?? [];
+    const bSpores = groupByCluster[b.id] ?? [];
+    return bSpores.length - aSpores.length;
+  });
 
-  const topClusterIds = Object.values(groupByCluster)
-    .sort((a, b) => b.length - a.length)
-    .map((spores) => spores[0].clusterId as string);
-
-  const startIndex = after ? topClusterIds.indexOf(after) + 1 : 0;
+  const skip = after ? topClusters.findIndex((cluster) => cluster.id === after) + 1 : 0;
+  const startIndex = skip > 0 ? skip + 1 : 0;
   const endIndex = startIndex + first;
 
-  const clusters = await Promise.all(
-    topClusterIds.map(async (id) => {
-      const key: ClusterLoadKey = [id, 'desc', 1, undefined, undefined, mintableBy];
-      const clusters = await dataSources.clusters.getClustersFor(key);
-      const [cluster] = clusters;
-      return cluster;
-    }),
-  );
-
-  return clusters.filter((cluster) => !!cluster).slice(startIndex, endIndex);
+  return topClusters.slice(startIndex, endIndex);
 }
 
 /**
