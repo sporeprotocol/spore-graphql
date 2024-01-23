@@ -9,16 +9,16 @@ export type Incremental<T> = T | { [P in keyof T]?: P extends ' $fragmentName' |
 export type RequireFields<T, K extends keyof T> = Omit<T, K> & { [P in K]-?: NonNullable<T[P]> };
 /** All built-in and custom scalars, mapped to their actual values */
 export type Scalars = {
-  ID: { input: string; output: string; }
-  String: { input: string; output: string; }
-  Boolean: { input: boolean; output: boolean; }
-  Int: { input: number; output: number; }
-  Float: { input: number; output: number; }
+  ID: { input: string; output: string };
+  String: { input: string; output: string };
+  Boolean: { input: boolean; output: boolean };
+  Int: { input: number; output: number };
+  Float: { input: number; output: number };
 };
 
 export enum CacheControlScope {
   Private = 'PRIVATE',
-  Public = 'PUBLIC'
+  Public = 'PUBLIC',
 }
 
 export type Cell = {
@@ -48,7 +48,6 @@ export type Cluster = {
   spores?: Maybe<Array<Spore>>;
 };
 
-
 export type ClusterSporesArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<SporeFilterInput>;
@@ -64,7 +63,7 @@ export type ClusterFilterInput = {
 export enum HashType {
   Data = 'data',
   Data1 = 'data1',
-  Type = 'type'
+  Type = 'type',
 }
 
 export type OutPoint = {
@@ -85,11 +84,9 @@ export type Query = {
   topClusters?: Maybe<Array<Cluster>>;
 };
 
-
 export type QueryClusterArgs = {
   id: Scalars['String']['input'];
 };
-
 
 export type QueryClustersArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -98,21 +95,17 @@ export type QueryClustersArgs = {
   order?: InputMaybe<QueryOrder>;
 };
 
-
 export type QueryMintableClustersArgs = {
   address: Scalars['String']['input'];
 };
-
 
 export type QuerySporeArgs = {
   id: Scalars['String']['input'];
 };
 
-
 export type QuerySporeCountArgs = {
   filter?: InputMaybe<SporeFilterInput>;
 };
-
 
 export type QuerySporesArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -120,7 +113,6 @@ export type QuerySporesArgs = {
   first?: InputMaybe<Scalars['Int']['input']>;
   order?: InputMaybe<QueryOrder>;
 };
-
 
 export type QueryTopClustersArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
@@ -130,7 +122,7 @@ export type QueryTopClustersArgs = {
 
 export enum QueryOrder {
   Asc = 'asc',
-  Desc = 'desc'
+  Desc = 'desc',
 }
 
 export type Script = {
@@ -166,31 +158,32 @@ export type ResolversObject<TObject> = WithIndex<TObject>;
 
 export type ResolverTypeWrapper<T> = Promise<T> | T;
 
-
 export type ResolverWithResolve<TResult, TParent, TContext, TArgs> = {
   resolve: ResolverFn<TResult, TParent, TContext, TArgs>;
 };
-export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> = ResolverFn<TResult, TParent, TContext, TArgs> | ResolverWithResolve<TResult, TParent, TContext, TArgs>;
+export type Resolver<TResult, TParent = {}, TContext = {}, TArgs = {}> =
+  | ResolverFn<TResult, TParent, TContext, TArgs>
+  | ResolverWithResolve<TResult, TParent, TContext, TArgs>;
 
 export type ResolverFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
 ) => Promise<TResult> | TResult;
 
 export type SubscriptionSubscribeFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
 ) => AsyncIterable<TResult> | Promise<AsyncIterable<TResult>>;
 
 export type SubscriptionResolveFn<TResult, TParent, TContext, TArgs> = (
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
 ) => TResult | Promise<TResult>;
 
 export interface SubscriptionSubscriberObject<TResult, TKey extends string, TParent, TContext, TArgs> {
@@ -214,10 +207,14 @@ export type SubscriptionResolver<TResult, TKey extends string, TParent = {}, TCo
 export type TypeResolveFn<TTypes, TParent = {}, TContext = {}> = (
   parent: TParent,
   context: TContext,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
 ) => Maybe<TTypes> | Promise<Maybe<TTypes>>;
 
-export type IsTypeOfResolverFn<T = {}, TContext = {}> = (obj: T, context: TContext, info: GraphQLResolveInfo) => boolean | Promise<boolean>;
+export type IsTypeOfResolverFn<T = {}, TContext = {}> = (
+  obj: T,
+  context: TContext,
+  info: GraphQLResolveInfo,
+) => boolean | Promise<boolean>;
 
 export type NextResolverFn<T> = () => Promise<T>;
 
@@ -226,10 +223,8 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
   parent: TParent,
   args: TArgs,
   context: TContext,
-  info: GraphQLResolveInfo
+  info: GraphQLResolveInfo,
 ) => TResult | Promise<TResult>;
-
-
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
@@ -274,9 +269,17 @@ export type CacheControlDirectiveArgs = {
   scope?: Maybe<CacheControlScope>;
 };
 
-export type CacheControlDirectiveResolver<Result, Parent, ContextType = any, Args = CacheControlDirectiveArgs> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
+export type CacheControlDirectiveResolver<
+  Result,
+  Parent,
+  ContextType = any,
+  Args = CacheControlDirectiveArgs,
+> = DirectiveResolverFn<Result, Parent, ContextType, Args>;
 
-export type CellResolvers<ContextType = any, ParentType extends ResolversParentTypes['Cell'] = ResolversParentTypes['Cell']> = ResolversObject<{
+export type CellResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['Cell'] = ResolversParentTypes['Cell'],
+> = ResolversObject<{
   blockHash?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   blockNumber?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   cellOutput?: Resolver<ResolversTypes['CellOutput'], ParentType, ContextType>;
@@ -286,14 +289,20 @@ export type CellResolvers<ContextType = any, ParentType extends ResolversParentT
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type CellOutputResolvers<ContextType = any, ParentType extends ResolversParentTypes['CellOutput'] = ResolversParentTypes['CellOutput']> = ResolversObject<{
+export type CellOutputResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['CellOutput'] = ResolversParentTypes['CellOutput'],
+> = ResolversObject<{
   capacity?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   lock?: Resolver<ResolversTypes['Script'], ParentType, ContextType>;
   type?: Resolver<Maybe<ResolversTypes['Script']>, ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type ClusterResolvers<ContextType = any, ParentType extends ResolversParentTypes['Cluster'] = ResolversParentTypes['Cluster']> = ResolversObject<{
+export type ClusterResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['Cluster'] = ResolversParentTypes['Cluster'],
+> = ResolversObject<{
   capacityMargin?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   cell?: Resolver<Maybe<ResolversTypes['Cell']>, ParentType, ContextType>;
   description?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
@@ -303,31 +312,63 @@ export type ClusterResolvers<ContextType = any, ParentType extends ResolversPare
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type OutPointResolvers<ContextType = any, ParentType extends ResolversParentTypes['OutPoint'] = ResolversParentTypes['OutPoint']> = ResolversObject<{
+export type OutPointResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['OutPoint'] = ResolversParentTypes['OutPoint'],
+> = ResolversObject<{
   index?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   txHash?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
+export type QueryResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query'],
+> = ResolversObject<{
   cluster?: Resolver<Maybe<ResolversTypes['Cluster']>, ParentType, ContextType, RequireFields<QueryClusterArgs, 'id'>>;
   clusterCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
-  clusters?: Resolver<Maybe<Array<ResolversTypes['Cluster']>>, ParentType, ContextType, RequireFields<QueryClustersArgs, 'first'>>;
-  mintableClusters?: Resolver<Maybe<Array<ResolversTypes['Cluster']>>, ParentType, ContextType, RequireFields<QueryMintableClustersArgs, 'address'>>;
+  clusters?: Resolver<
+    Maybe<Array<ResolversTypes['Cluster']>>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryClustersArgs, 'first'>
+  >;
+  mintableClusters?: Resolver<
+    Maybe<Array<ResolversTypes['Cluster']>>,
+    ParentType,
+    ContextType,
+    RequireFields<QueryMintableClustersArgs, 'address'>
+  >;
   spore?: Resolver<Maybe<ResolversTypes['Spore']>, ParentType, ContextType, RequireFields<QuerySporeArgs, 'id'>>;
   sporeCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType, Partial<QuerySporeCountArgs>>;
-  spores?: Resolver<Maybe<Array<ResolversTypes['Spore']>>, ParentType, ContextType, RequireFields<QuerySporesArgs, 'first'>>;
-  topClusters?: Resolver<Maybe<Array<ResolversTypes['Cluster']>>, ParentType, ContextType, Partial<QueryTopClustersArgs>>;
+  spores?: Resolver<
+    Maybe<Array<ResolversTypes['Spore']>>,
+    ParentType,
+    ContextType,
+    RequireFields<QuerySporesArgs, 'first'>
+  >;
+  topClusters?: Resolver<
+    Maybe<Array<ResolversTypes['Cluster']>>,
+    ParentType,
+    ContextType,
+    Partial<QueryTopClustersArgs>
+  >;
 }>;
 
-export type ScriptResolvers<ContextType = any, ParentType extends ResolversParentTypes['Script'] = ResolversParentTypes['Script']> = ResolversObject<{
+export type ScriptResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['Script'] = ResolversParentTypes['Script'],
+> = ResolversObject<{
   args?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   codeHash?: Resolver<ResolversTypes['String'], ParentType, ContextType>;
   hashType?: Resolver<ResolversTypes['HashType'], ParentType, ContextType>;
   __isTypeOf?: IsTypeOfResolverFn<ParentType, ContextType>;
 }>;
 
-export type SporeResolvers<ContextType = any, ParentType extends ResolversParentTypes['Spore'] = ResolversParentTypes['Spore']> = ResolversObject<{
+export type SporeResolvers<
+  ContextType = any,
+  ParentType extends ResolversParentTypes['Spore'] = ResolversParentTypes['Spore'],
+> = ResolversObject<{
   capacityMargin?: Resolver<Maybe<ResolversTypes['String']>, ParentType, ContextType>;
   cell?: Resolver<Maybe<ResolversTypes['Cell']>, ParentType, ContextType>;
   cluster?: Resolver<Maybe<ResolversTypes['Cluster']>, ParentType, ContextType>;

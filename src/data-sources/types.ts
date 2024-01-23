@@ -20,15 +20,7 @@ export interface Cluster {
 }
 
 export type SporeCollectKey = [SporeId, Order];
-export type SporeLoadKey = [
-  SporeId,
-  Order,
-  First,
-  After?,
-  ClusterId[]?,
-  ContentType[]?,
-  Address[]?,
-];
+export type SporeLoadKey = [SporeId, Order, First, After?, ClusterId[]?, ContentType[]?, Address[]?];
 
 export interface Spore {
   id: SporeId;

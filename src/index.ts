@@ -1,7 +1,7 @@
 import { ApolloServer, ApolloServerOptions } from '@apollo/server';
-import { typeDefs } from './type-defs';
-import { resolvers } from './resolvers';
 import { ContextValue, createContext } from './context';
+import { resolvers } from './resolvers';
+import { typeDefs } from './type-defs';
 
 export * from './resolvers-types';
 export type { ContextValue };
@@ -13,11 +13,10 @@ export type CreateApolloServerOptions = Partial<
 
 export function createApolloServer<Context extends ContextValue>(
   options?: CreateApolloServerOptions,
-) {
-  const server = new ApolloServer<Context>({
+): ApolloServer<Context> {
+  return new ApolloServer<Context>({
     ...(options ?? {}),
     typeDefs,
     resolvers,
   });
-  return server;
 }

@@ -8,10 +8,7 @@ export function encodeToAddress(script: Script, config: SporeConfig<string>) {
   });
 }
 
-export function getScriptConfig(
-  name: string,
-  config: SporeConfig<string>,
-): ScriptConfig | undefined {
+export function getScriptConfig(name: string, config: SporeConfig<string>): ScriptConfig | undefined {
   const script = config.lumos.SCRIPTS[name];
   return script;
 }
@@ -21,9 +18,7 @@ export function isOmnilockScript(script: Script, config: SporeConfig<string>) {
   if (!omnilockScript) {
     return false;
   }
-  return (
-    script.codeHash === omnilockScript.CODE_HASH && script.hashType === omnilockScript.HASH_TYPE
-  );
+  return script.codeHash === omnilockScript.CODE_HASH && script.hashType === omnilockScript.HASH_TYPE;
 }
 
 export function isAnyoneCanPayScript(script: Script, config: SporeConfig<string>) {
@@ -31,10 +26,7 @@ export function isAnyoneCanPayScript(script: Script, config: SporeConfig<string>
   if (!anyoneCanPayLockScript) {
     return false;
   }
-  return (
-    script.codeHash === anyoneCanPayLockScript.CODE_HASH &&
-    script.hashType === anyoneCanPayLockScript.HASH_TYPE
-  );
+  return script.codeHash === anyoneCanPayLockScript.CODE_HASH && script.hashType === anyoneCanPayLockScript.HASH_TYPE;
 }
 
 export function isSameScript(script1: Script | undefined, script2: Script | undefined) {
@@ -42,9 +34,7 @@ export function isSameScript(script1: Script | undefined, script2: Script | unde
     return false;
   }
   return (
-    script1.codeHash === script2.codeHash &&
-    script1.hashType === script2.hashType &&
-    script1.args === script2.args
+    script1.codeHash === script2.codeHash && script1.hashType === script2.hashType && script1.args === script2.args
   );
 }
 
