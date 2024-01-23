@@ -1,19 +1,19 @@
+import { number } from '@ckb-lumos/codec';
 import { Script, helpers } from '@ckb-lumos/lumos';
 import { ScriptConfig } from '@ckb-lumos/config-manager';
 import { SporeConfig } from '@spore-sdk/core';
 
-export function encodeToAddress(script: Script, config: SporeConfig<string>) {
+export function encodeToAddress(script: Script, config: SporeConfig) {
   return helpers.encodeToAddress(script, {
     config: config.lumos,
   });
 }
 
-export function getScriptConfig(name: string, config: SporeConfig<string>): ScriptConfig | undefined {
-  const script = config.lumos.SCRIPTS[name];
-  return script;
+export function getScriptConfig(name: string, config: SporeConfig): ScriptConfig | undefined {
+  return config.lumos.SCRIPTS[name];
 }
 
-export function isOmnilockScript(script: Script, config: SporeConfig<string>) {
+export function isOmnilockScript(script: Script, config: SporeConfig) {
   const omnilockScript = getScriptConfig('OMNILOCK', config);
   if (!omnilockScript) {
     return false;
@@ -43,7 +43,13 @@ export function isAnyoneCanPay(script: Script | undefined, config: SporeConfig<s
     return false;
   }
   if (isOmnilockScript(script, config)) {
-    return script.args.slice(44, 46) === '02';
+    const flag = number.Uint8.unpack(`0x${script.args.slice(44, 46)}`);
+    const flagArray: number[] = [];
+    for (let i = 7; i >= 0; i--) {
+      flagArray.push((flag >> i) & 1);
+    }
+
+    return flagArray[6] === 1;
   }
 
   return isAnyoneCanPayScript(script, config);

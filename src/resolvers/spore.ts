@@ -19,8 +19,7 @@ export async function getSpores(_: unknown, params: SporeQueryParams, { dataSour
   const { filter = {}, first, after, order } = getQueryParams(params);
   const { clusterIds, contentTypes, addresses } = filter ?? {};
   const key: SporeLoadKey = ['0x', order, first, after, clusterIds, contentTypes, addresses];
-  const spores = await dataSources.spores.getSporesFor(key);
-  return spores;
+  return await dataSources.spores.getSporesFor(key);
 }
 
 /**
