@@ -31,8 +31,7 @@ export async function getClusters(
   const { first, after, order, filter } = getQueryParams(params);
   const { addresses, mintableBy } = filter ?? {};
   const key: ClusterLoadKey = ['0x', order, first, after, addresses, mintableBy];
-  const clusters = await dataSources.clusters.getClustersFor(key);
-  return clusters;
+  return await dataSources.clusters.getClustersFor(key);
 }
 
 /**
@@ -77,10 +76,10 @@ export async function getMintableClusters(
   const lock = helpers.parseAddress(address, {
     config: config.lumos,
   });
-  const mintableClusters = clusters.filter(({ cell }) => {
+
+  return clusters.filter(({ cell }) => {
     return isSameScript(cell?.cellOutput.lock, lock) || isAnyoneCanPay(cell?.cellOutput.lock, config);
   });
-  return mintableClusters;
 }
 
 /**
