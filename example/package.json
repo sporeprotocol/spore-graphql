@@ -4,8 +4,7 @@
   "private": true,
   "scripts": {
     "dev": "next dev",
-    "build": "pnpm run prebuild && next build",
-    "prebuild": "cd node_modules/spore-graphql && pnpm run build && cd ../..",
+    "build": "next build",
     "start": "next start",
     "lint": "next lint"
   },
@@ -18,7 +17,7 @@
     "next": "14.0.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
-    "spore-graphql": "link:.."
+    "spore-graphql": "workspace:^"
   },
   "devDependencies": {
     "@types/node": "^20.11.5",
