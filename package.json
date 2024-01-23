@@ -52,5 +52,9 @@
   },
   "lint-staged": {
     "{src,example/src}/**/*.{js,jsx,ts,tsx,md,json}": "prettier --ignore-unknown --write"
+  },
+  "engines": {
+    "node": ">=18",
+    "pnpm": ">=8"
   }
 }
