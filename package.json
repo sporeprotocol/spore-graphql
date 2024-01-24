@@ -6,6 +6,8 @@
   "scripts": {
     "prepare": "husky install",
     "build": "turbo build",
+    "build:lib": "turbo build --filter=spore-graphql",
+    "publish:lib": "pnpm run build:lib && changeset publish",
     "lint:fix": "prettier --write '{src,example/src}/**/*.{js,jsx,ts,tsx,md,json}'"
   },
   "devDependencies": {
