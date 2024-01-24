@@ -1,12 +1,6 @@
 import { ContextValue } from '../context';
 import { getSporeById, getSporeCount, getSpores } from './spore';
-import {
-  getClusterById,
-  getClusterCount,
-  getClusters,
-  getMintableClusters,
-  getTopClusters,
-} from './cluster';
+import { getClusterById, getClusterCount, getClusters, getMintableClusters, getTopClusters } from './cluster';
 import { ClusterQueryParams, SporeQueryParams } from './types';
 import { getCapacityMargin } from './utils';
 import { Cluster, Spore } from '../data-sources/types';
@@ -40,11 +34,7 @@ export const resolvers = {
   },
 
   Cluster: {
-    spores: async (
-      cluster: Cluster,
-      args: ClusterQueryParams,
-      context: ContextValue,
-    ): Promise<Spore[]> => {
+    spores: async (cluster: Cluster, args: ClusterQueryParams, context: ContextValue): Promise<Spore[]> => {
       const { first, after, order, filter } = args;
       const params = {
         filter: {

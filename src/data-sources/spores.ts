@@ -43,21 +43,12 @@ export class SporesDataSource extends BaseDataSource implements ISporesDataSourc
             if (clusterIds && clusterIds.length > 0 && !spore.clusterId) {
               continue;
             }
-            if (
-              clusterIds &&
-              spore.clusterId &&
-              clusterIds.length > 0 &&
-              !clusterIds.includes(spore.clusterId)
-            ) {
+            if (clusterIds && spore.clusterId && clusterIds.length > 0 && !clusterIds.includes(spore.clusterId)) {
               continue;
             }
 
             // check the content type of the spore
-            if (
-              contentTypes &&
-              contentTypes.length > 0 &&
-              !contentTypes.includes(spore.contentType)
-            ) {
+            if (contentTypes && contentTypes.length > 0 && !contentTypes.includes(spore.contentType)) {
               continue;
             }
 

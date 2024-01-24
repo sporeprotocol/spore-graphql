@@ -89,12 +89,7 @@ export const typeDefs: DocumentNode = gql`
     spores(filter: SporeFilterInput, first: Int = 10, after: String, order: QueryOrder): [Spore!]
     sporeCount(filter: SporeFilterInput): Int!
     cluster(id: String!): Cluster
-    clusters(
-      first: Int = 10
-      after: String
-      order: QueryOrder
-      filter: ClusterFilterInput
-    ): [Cluster!]
+    clusters(first: Int = 10, after: String, order: QueryOrder, filter: ClusterFilterInput): [Cluster!]
     topClusters(first: Int, after: String, filter: TopClusterFilterInput): [Cluster!]
     mintableClusters(address: String!): [Cluster!]
     clusterCount: Int!

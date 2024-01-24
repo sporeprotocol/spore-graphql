@@ -11,4 +11,3 @@ function customFetch(request, init) {
 
 module.exports = exports = customFetch;
 exports.fetch = customFetch;
-
