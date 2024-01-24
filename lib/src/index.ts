@@ -8,14 +8,11 @@ export type { ContextValue };
 export { createContext };
 
 export type CreateApolloServerOptions = Partial<
-  Omit<
-    ApolloServerOptions<ContextValue>,
-    'typeDefs' | 'resolvers' | 'schema' | 'gateway'
-  >
+  Omit<ApolloServerOptions<ContextValue>, 'typeDefs' | 'resolvers' | 'schema' | 'gateway'>
 >;
 
 export function createApolloServer<Context extends ContextValue>(
-  options?: CreateApolloServerOptions
+  options?: CreateApolloServerOptions,
 ): ApolloServer<Context> {
   return new ApolloServer<Context>({
     ...(options ?? {}),

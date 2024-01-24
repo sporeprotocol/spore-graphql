@@ -1,0 +1,47 @@
+{
+  "name": "spore-graphql",
+  "version": "0.1.5",
+  "description": "A Graphql Layer designed to simplify Spore data queries",
+  "type": "module",
+  "module": "./build/index.js",
+  "types": "./build/index.d.ts",
+  "exports": {
+    "./next": {
+      "types": "./build/next.d.ts",
+      "default": "./build/next.js"
+    },
+    ".": {
+      "types": "./build/index.d.ts",
+      "default": "./build/index.js"
+    }
+  },
+  "author": "Yuexun Jiang <yuexunjiang@cryptape.com>",
+  "license": "MIT",
+  "scripts": {
+    "dev": "tsc --watch --project tsconfig.build.json",
+    "build": "tsc --project tsconfig.build.json",
+    "prepublish": "graphql-codegen && pnpm run build",
+    "publish": "pnpm run prepublish && changeset publish"
+  },
+  "dependencies": {
+    "@apollo/server": "^4.9.5",
+    "@as-integrations/next": "^3.0.0",
+    "@changesets/cli": "^2.27.1",
+    "@ckb-lumos/codec": "^0.22.0-next.4",
+    "@ckb-lumos/config-manager": "^0.22.0-next.4",
+    "@ckb-lumos/lumos": "^0.22.0-next.4",
+    "dataloader": "^2.2.2",
+    "graphql": "^16.8.1",
+    "graphql-tag": "^2.12.6",
+    "lodash-es": "^4.17.21",
+    "typescript": "^5.3.3"
+  },
+  "devDependencies": {
+    "@graphql-codegen/cli": "^5.0.0",
+    "@graphql-codegen/typescript-resolvers": "^4.0.1",
+    "@types/lodash-es": "^4.17.11"
+  },
+  "peerDependencies": {
+    "@spore-sdk/core": "^0.2.0-beta.1"
+  }
+}

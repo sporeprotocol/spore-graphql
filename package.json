@@ -1,57 +1,22 @@
 {
-  "name": "spore-graphql",
-  "version": "0.1.5",
+  "name": "spore-graphql-monorepo",
   "description": "A Graphql Layer designed to simplify Spore data queries",
-  "type": "module",
-  "module": "./lib/index.js",
-  "types": "./lib/index.d.ts",
-  "exports": {
-    "./next": {
-      "types": "./lib/next.d.ts",
-      "default": "./lib/next.js"
-    },
-    ".": {
-      "types": "./lib/index.d.ts",
-      "default": "./lib/index.js"
-    }
-  },
-  "author": "Yuexun Jiang <yuexunjiang@cryptape.com>",
   "license": "MIT",
+  "private": true,
   "scripts": {
     "prepare": "husky install",
-    "dev": "tsc --watch --project tsconfig.build.json",
-    "lint:fix": "prettier --write '{src,example/src}/**/*.{js,jsx,ts,tsx,md,json}'",
-    "build": "tsc --project tsconfig.build.json",
-    "build:example": "pnpm run build && pnpm --filter=./example run build",
-    "prepublish": "graphql-codegen && pnpm run build",
-    "publish": "pnpm run prepublish && changeset publish"
-  },
-  "dependencies": {
-    "@apollo/server": "^4.9.5",
-    "@as-integrations/next": "^3.0.0",
-    "@changesets/cli": "^2.27.1",
-    "@ckb-lumos/lumos": "^0.22.0-next.4",
-    "@ckb-lumos/codec": "^0.22.0-next.4",
-    "@ckb-lumos/config-manager": "^0.22.0-next.4",
-    "dataloader": "^2.2.2",
-    "graphql": "^16.8.1",
-    "graphql-tag": "^2.12.6",
-    "husky": "^8.0.0",
-    "lint-staged": "^15.1.0",
-    "lodash-es": "^4.17.21",
-    "prettier": "^3.1.0",
-    "typescript": "^5.2.2"
+    "build": "turbo build",
+    "lint:fix": "prettier --write '{src,example/src}/**/*.{js,jsx,ts,tsx,md,json}'"
   },
   "devDependencies": {
-    "@graphql-codegen/cli": "^5.0.0",
-    "@graphql-codegen/typescript-resolvers": "^4.0.1",
-    "@types/lodash-es": "^4.17.11"
-  },
-  "peerDependencies": {
-    "@spore-sdk/core": "^0.2.0-beta.1"
+    "turbo": "^1.11.3",
+    "husky": "^8.0.0",
+    "prettier": "^3.1.0",
+    "lint-staged": "^15.1.0",
+    "@changesets/cli": "^2.27.1"
   },
   "lint-staged": {
-    "{src,example/src}/**/*.{js,jsx,ts,tsx,md,json}": "prettier --ignore-unknown --write"
+    "{lib,example}/src/**/*.{js,jsx,ts,tsx,md,json}": "prettier --ignore-unknown --write"
   },
   "engines": {
     "node": ">=18",

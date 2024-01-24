@@ -1,5 +1,5 @@
 import { startServerAndCreateNextHandler } from '@as-integrations/next';
-import { CreateApolloServerOptions, createApolloServer, createContext } from '.';
+import { CreateApolloServerOptions, createApolloServer, createContext } from './index';
 import { SporeConfig } from '@spore-sdk/core';
 
 export function startSporeServerNextHandler(
