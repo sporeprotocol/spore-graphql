@@ -43,12 +43,15 @@ export function isAnyoneCanPay(script: Script | undefined, config: SporeConfig<s
     return false;
   }
   if (isOmnilockScript(script, config)) {
+    // The Omnilock has a flag in the args, where each bit represents a feature.
+    // Refer to: https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0042-omnilock/0042-omnilock.md#omnilock-args
     const flag = number.Uint8.unpack(`0x${script.args.slice(44, 46)}`);
     const flagArray: number[] = [];
     for (let i = 7; i >= 0; i--) {
       flagArray.push((flag >> i) & 1);
     }
 
+    // Is anyone-can-pay mode enabled
     return flagArray[6] === 1;
   }
 
