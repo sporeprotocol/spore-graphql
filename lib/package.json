@@ -15,7 +15,6 @@
       "default": "./build/index.js"
     }
   },
-  "author": "Yuexun Jiang <yuexunjiang@cryptape.com>",
   "license": "MIT",
   "scripts": {
     "dev": "tsc --watch --project tsconfig.build.json",
@@ -43,5 +42,15 @@
   },
   "peerDependencies": {
     "@spore-sdk/core": "^0.2.0-beta.1"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/sporeprotocol/spore-graphql.git"
+  },
+  "bugs": {
+    "url": "https://github.com/sporeprotocol/spore-graphql/issues"
   }
 }
