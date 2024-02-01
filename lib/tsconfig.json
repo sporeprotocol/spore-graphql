@@ -12,6 +12,7 @@
     "noFallthroughCasesInSwitch": true,
     "esModuleInterop": true
   },
+  "exclude": ["build"],
   "ts-node": {
     "esm": true
   }

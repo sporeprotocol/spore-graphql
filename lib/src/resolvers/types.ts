@@ -1,6 +1,8 @@
+import { ScriptId } from '@spore-sdk/core/lib/types';
 import { After, ClusterId, ContentType, First, Order } from '../data-sources/types';
 
 export type BaseFilter = {
+  scriptId?: ScriptId;
   address?: string;
   addresses?: string[];
 };

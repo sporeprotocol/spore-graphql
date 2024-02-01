@@ -14,12 +14,14 @@ export const typeDefs: DocumentNode = gql`
   ) on FIELD_DEFINITION | OBJECT | INTERFACE | UNION
 
   input SporeFilterInput {
+    codeHashes: [String!]
     clusterIds: [String!]
     contentTypes: [String!]
     addresses: [String!]
   }
 
   input ClusterFilterInput {
+    codeHashes: [String!]
     addresses: [String!]
     mintableBy: String
   }
@@ -72,6 +74,7 @@ export const typeDefs: DocumentNode = gql`
     content: String!
     cluster: Cluster
     cell: Cell
+    codeHash: String
     capacityMargin: String
   }
 
@@ -81,6 +84,7 @@ export const typeDefs: DocumentNode = gql`
     description: String!
     spores(filter: SporeFilterInput, first: Int, after: String, order: QueryOrder): [Spore!]
     cell: Cell
+    codeHash: String
     capacityMargin: String
   }
 

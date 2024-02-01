@@ -10,12 +10,14 @@ directive @cacheControl(
 ) on FIELD_DEFINITION | OBJECT | INTERFACE | UNION
 
 input SporeFilterInput {
+  codeHashes: [String!]
   clusterIds: [String!]
   contentTypes: [String!]
   addresses: [String!]
 }
 
 input ClusterFilterInput {
+  codeHashes: [String!]
   addresses: [String!]
   mintableBy: String
 }
@@ -68,6 +70,7 @@ type Spore {
   content: String!
   cluster: Cluster
   cell: Cell
+  codeHash: String
   capacityMargin: String
 }
 
@@ -77,6 +80,7 @@ type Cluster {
   description: String!
   spores(filter: SporeFilterInput, first: Int, after: String, order: QueryOrder): [Spore!]
   cell: Cell
+  codeHash: String
   capacityMargin: String
 }
 

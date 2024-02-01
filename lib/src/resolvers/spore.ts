@@ -1,5 +1,5 @@
 import { ContextValue } from '../context';
-import { Spore, SporeLoadKey } from '../data-sources/types';
+import { Spore, SporeLoadKeys } from '../data-sources/types';
 import { SporeQueryParams } from './types';
 import { getQueryParams } from './utils';
 
@@ -18,7 +18,7 @@ export async function getSporeById(_: unknown, { id }: { id: string }, { dataSou
 export async function getSpores(_: unknown, params: SporeQueryParams, { dataSources }: ContextValue): Promise<Spore[]> {
   const { filter = {}, first, after, order } = getQueryParams(params);
   const { clusterIds, contentTypes, addresses } = filter ?? {};
-  const key: SporeLoadKey = ['0x', order, first, after, clusterIds, contentTypes, addresses];
+  const key: SporeLoadKeys = ['0x', order, first, after, clusterIds, contentTypes, addresses];
   return await dataSources.spores.getSporesFor(key);
 }
 
@@ -33,7 +33,7 @@ export async function getSporeCount(
   const { filter = {} } = getQueryParams(params);
   const { clusterIds, contentTypes, addresses } = filter ?? {};
 
-  const key: SporeLoadKey = ['0x', 'desc', Number.MAX_SAFE_INTEGER, undefined, clusterIds, contentTypes, addresses];
+  const key: SporeLoadKeys = ['0x', 'desc', Number.MAX_SAFE_INTEGER, undefined, clusterIds, contentTypes, addresses];
   const spores = await dataSources.spores.getSporesFor(key);
   return spores.length;
 }

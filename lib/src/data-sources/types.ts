@@ -1,31 +1,33 @@
-import { Cell } from '@ckb-lumos/lumos';
+import { Cell, Hash, HexString, Address } from '@ckb-lumos/lumos';
 
 export type Order = 'asc' | 'desc';
 export type First = number;
 export type After = string;
 
-export type SporeId = string;
-export type ClusterId = string;
-export type ContentType = string;
-export type Address = string;
+export type CodeHash = Hash;
+export type Args = HexString;
+export type BaseCollectKeys = [CodeHash, Args?, Order?];
+export type OptionalBaseCollectKeys = [CodeHash?, Args?, Order?];
 
-export type ClusterCollectKey = [ClusterId, Order];
-export type ClusterLoadKey = [ClusterId, Order, First, After?, Address[]?, Address?];
-
+export type ClusterId = Hash;
+export type ClusterLoadKeys = [ClusterId, Order, First, After?, Address[]?, Address?, CodeHash?];
 export interface Cluster {
+  cell: Cell;
   id: ClusterId;
+  codeHash: CodeHash;
   name: string;
   description?: string;
-  cell: Cell;
 }
 
-export type SporeCollectKey = [SporeId, Order];
-export type SporeLoadKey = [SporeId, Order, First, After?, ClusterId[]?, ContentType[]?, Address[]?];
+export type SporeId = Hash;
+export type ContentType = string;
+export type SporeLoadKeys = [SporeId, Order, First, After?, ClusterId[]?, ContentType[]?, Address[]?, CodeHash?];
 
 export interface Spore {
+  cell: Cell;
   id: SporeId;
+  codeHash: CodeHash;
   clusterId: string | undefined;
   contentType: string;
   content: string;
-  cell: Cell;
 }
