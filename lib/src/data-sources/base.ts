@@ -42,12 +42,16 @@ export abstract class BaseDataSource {
       const collector = await this.collector.load([codeHash, args, order]);
       return collector.collect();
     } else {
-      const collectors = await Promise.all(
-        this.category.versions.map((script) => {
-          return this.collector.load([script.script.codeHash, args, order]);
-        }),
-      );
-
+      const loading_collectors = this.category.versions.map((script) => {
+        return this.collector.load([script.script.codeHash, args, order]);
+      });
+      let collectors = [];
+      // FIXME: I assume all of cells under newer version are created after all of the older ones,
+      //        if someone minted a cell after the new version contract deployed, this older cell
+      //        will aslo be put in front of all the newer ones, fix me once it makes trouble
+      for (const loading_await of loading_collectors) {
+        collectors.push(await loading_await);
+      }
       const collects = collectors.map((c) => c.collect());
       return combineAsyncIterators(...collects) as AsyncIterableIterator<Cell>;
     }
