@@ -1,6 +1,6 @@
 import DataLoader from 'dataloader';
 import { Cell, helpers } from '@ckb-lumos/lumos';
-import { unpackToRawClusterData, getSporeScript, getSporeScriptCategory } from '@spore-sdk/core';
+import { unpackToRawClusterData, getSporeScriptCategory } from '@spore-sdk/core';
 import { encodeToAddress, isAnyoneCanPay, isSameScript, hashKeys } from '../utils';
 import { BaseDataSource } from './base';
 import { IClustersDataSource } from './interface';
@@ -8,7 +8,6 @@ import { Cluster, ClusterLoadKeys } from './types';
 
 export class ClustersDataSource extends BaseDataSource implements IClustersDataSource {
   public category = getSporeScriptCategory(this.config, 'Cluster');
-  public script = getSporeScript(this.config, 'Cluster');
 
   public static getClusterFromCell(cell: Cell): Cluster {
     const rawClusterData = unpackToRawClusterData(cell.data);

@@ -1,6 +1,6 @@
 import DataLoader from 'dataloader';
 import { Cell } from '@ckb-lumos/lumos';
-import { getSporeScript, getSporeScriptCategory, unpackToRawSporeData } from '@spore-sdk/core';
+import { getSporeScriptCategory, unpackToRawSporeData } from '@spore-sdk/core';
 import { encodeToAddress, hashKeys } from '../utils';
 import { ISporesDataSource } from './interface';
 import { Spore, SporeLoadKeys } from './types';
@@ -8,7 +8,6 @@ import { BaseDataSource } from './base';
 
 export class SporesDataSource extends BaseDataSource implements ISporesDataSource {
   public category = getSporeScriptCategory(this.config, 'Spore');
-  public script = getSporeScript(this.config, 'Spore', ['v1']);
 
   public static getSporeFromCell(cell: Cell): Spore {
     const rawSporeData = unpackToRawSporeData(cell.data);

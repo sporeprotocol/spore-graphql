@@ -20,7 +20,8 @@
     "dev": "tsc --watch --project tsconfig.build.json",
     "build": "tsc --project tsconfig.build.json",
     "prepublish": "graphql-codegen && pnpm run build",
-    "publish": "pnpm run prepublish && changeset publish"
+    "publish": "pnpm run prepublish && changeset publish",
+    "test": "vitest"
   },
   "dependencies": {
     "@apollo/server": "^4.9.5",

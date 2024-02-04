@@ -1,7 +1,7 @@
 import DataLoader from 'dataloader';
 import combineAsyncIterators from 'combine-async-iterators';
 import { Cell, CellCollector, Indexer } from '@ckb-lumos/lumos';
-import { SporeConfig, SporeScript, SporeScriptCategory } from '@spore-sdk/core';
+import { SporeConfig, SporeScriptCategory } from '@spore-sdk/core';
 import { BaseCollectKeys, OptionalBaseCollectKeys } from './types';
 import { hashKeys } from '../utils';
 
@@ -10,7 +10,6 @@ export abstract class BaseDataSource {
   public config: SporeConfig;
 
   abstract category: SporeScriptCategory;
-  abstract script: SporeScript;
 
   constructor(config: SporeConfig) {
     this.config = config;
