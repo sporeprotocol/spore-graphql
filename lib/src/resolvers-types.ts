@@ -59,7 +59,7 @@ export type ClusterSporesArgs = {
 
 export type ClusterFilterInput = {
   addresses?: InputMaybe<Array<Scalars['String']['input']>>;
-  codeHashes?: InputMaybe<Array<Scalars['String']['input']>>;
+  codeHash?: InputMaybe<Scalars['String']['input']>;
   mintableBy?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -157,7 +157,7 @@ export type Spore = {
 export type SporeFilterInput = {
   addresses?: InputMaybe<Array<Scalars['String']['input']>>;
   clusterIds?: InputMaybe<Array<Scalars['String']['input']>>;
-  codeHashes?: InputMaybe<Array<Scalars['String']['input']>>;
+  codeHash?: InputMaybe<Scalars['String']['input']>;
   contentTypes?: InputMaybe<Array<Scalars['String']['input']>>;
 };
 

@@ -14,14 +14,14 @@ export const typeDefs: DocumentNode = gql`
   ) on FIELD_DEFINITION | OBJECT | INTERFACE | UNION
 
   input SporeFilterInput {
-    codeHashes: [String!]
+    codeHash: String
     clusterIds: [String!]
     contentTypes: [String!]
     addresses: [String!]
   }
 
   input ClusterFilterInput {
-    codeHashes: [String!]
+    codeHash: String
     addresses: [String!]
     mintableBy: String
   }

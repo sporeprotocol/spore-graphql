@@ -29,8 +29,8 @@ export async function getClusters(
   { dataSources }: ContextValue,
 ): Promise<Cluster[]> {
   const { first, after, order, filter } = getQueryParams(params);
-  const { addresses, mintableBy } = filter ?? {};
-  const key: ClusterLoadKeys = ['0x', order, first, after, addresses, mintableBy];
+  const { addresses, mintableBy, codeHash } = filter ?? {};
+  const key: ClusterLoadKeys = ['0x', order, first, after, addresses, mintableBy, codeHash];
   return await dataSources.clusters.getClustersFor(key);
 }
 
@@ -43,10 +43,18 @@ export async function getTopClusters(
   { dataSources }: ContextValue,
 ): Promise<Cluster[]> {
   const { first, after, filter } = getQueryParams(params);
-  const { mintableBy } = filter ?? {};
+  const { mintableBy, codeHash } = filter ?? {};
   const [spores, clusters] = await Promise.all([
-    dataSources.spores.getSporesFor(['0x', 'desc', Number.MAX_SAFE_INTEGER]),
-    dataSources.clusters.getClustersFor(['0x', 'desc', Number.MAX_SAFE_INTEGER, undefined, undefined, mintableBy]),
+    dataSources.spores.getSporesFor(['0x', 'desc', Number.MAX_SAFE_INTEGER, codeHash]),
+    dataSources.clusters.getClustersFor([
+      '0x',
+      'desc',
+      Number.MAX_SAFE_INTEGER,
+      undefined,
+      undefined,
+      mintableBy,
+      codeHash,
+    ]),
   ]);
   const groupByCluster = groupBy(spores, 'clusterId');
 
@@ -68,10 +76,10 @@ export async function getTopClusters(
  */
 export async function getMintableClusters(
   _: unknown,
-  { address }: { address: string },
+  { address, codeHash }: { address: string; codeHash?: string },
   { dataSources, config }: ContextValue,
 ): Promise<Cluster[]> {
-  const key: ClusterLoadKeys = ['0x', 'desc', Number.MAX_SAFE_INTEGER];
+  const key: ClusterLoadKeys = ['0x', 'desc', Number.MAX_SAFE_INTEGER, undefined, undefined, undefined, codeHash];
   const clusters = await dataSources.clusters.getClustersFor(key);
   const lock = helpers.parseAddress(address, {
     config: config.lumos,
@@ -85,8 +93,13 @@ export async function getMintableClusters(
 /**
  * Get the count of clusters
  */
-export async function getClusterCount(_: unknown, __: unknown, { dataSources }: ContextValue): Promise<number> {
-  const key: ClusterLoadKeys = ['0x', 'desc', Number.MAX_SAFE_INTEGER, undefined];
+export async function getClusterCount(
+  _: unknown,
+  __: unknown,
+  { dataSources }: ContextValue,
+  { codeHash }: { codeHash?: string },
+): Promise<number> {
+  const key: ClusterLoadKeys = ['0x', 'desc', Number.MAX_SAFE_INTEGER, undefined, undefined, undefined, codeHash];
   const clusters = await dataSources.clusters.getClustersFor(key);
   return clusters.length;
 }

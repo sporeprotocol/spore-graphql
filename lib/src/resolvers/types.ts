@@ -5,6 +5,7 @@ export type BaseFilter = {
   scriptId?: ScriptId;
   address?: string;
   addresses?: string[];
+  codeHash?: string;
 };
 
 export type SporeFilter = BaseFilter & {
@@ -34,5 +35,6 @@ export type ClusterQueryParams = BaseQueryParams & {
 export type TopClusterQueryParams = BaseQueryParams & {
   filter: {
     mintableBy?: string;
+    codeHash?: string;
   };
 };
