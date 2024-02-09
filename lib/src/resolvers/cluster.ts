@@ -95,9 +95,8 @@ export async function getMintableClusters(
  */
 export async function getClusterCount(
   _: unknown,
-  __: unknown,
-  { dataSources }: ContextValue,
   { codeHash }: { codeHash?: string },
+  { dataSources }: ContextValue,
 ): Promise<number> {
   const key: ClusterLoadKeys = ['0x', 'desc', Number.MAX_SAFE_INTEGER, undefined, undefined, undefined, codeHash];
   const clusters = await dataSources.clusters.getClustersFor(key);

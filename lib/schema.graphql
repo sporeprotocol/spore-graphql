@@ -24,6 +24,7 @@ input ClusterFilterInput {
 
 input TopClusterFilterInput {
   mintableBy: String
+  codeHash: String
 }
 
 enum QueryOrder {
@@ -96,6 +97,6 @@ type Query {
     filter: ClusterFilterInput
   ): [Cluster!]
   topClusters(first: Int, after: String, filter: TopClusterFilterInput): [Cluster!]
-  mintableClusters(address: String!): [Cluster!]
-  clusterCount: Int!
+  mintableClusters(address: String!, codeHash: String): [Cluster!]
+  clusterCount(codeHash: String): Int!
 }

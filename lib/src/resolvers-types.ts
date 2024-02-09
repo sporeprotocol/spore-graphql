@@ -93,6 +93,11 @@ export type QueryClusterArgs = {
 };
 
 
+export type QueryClusterCountArgs = {
+  codeHash?: InputMaybe<Scalars['String']['input']>;
+};
+
+
 export type QueryClustersArgs = {
   after?: InputMaybe<Scalars['String']['input']>;
   filter?: InputMaybe<ClusterFilterInput>;
@@ -103,6 +108,7 @@ export type QueryClustersArgs = {
 
 export type QueryMintableClustersArgs = {
   address: Scalars['String']['input'];
+  codeHash?: InputMaybe<Scalars['String']['input']>;
 };
 
 
@@ -162,6 +168,7 @@ export type SporeFilterInput = {
 };
 
 export type TopClusterFilterInput = {
+  codeHash?: InputMaybe<Scalars['String']['input']>;
   mintableBy?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -316,7 +323,7 @@ export type OutPointResolvers<ContextType = any, ParentType extends ResolversPar
 
 export type QueryResolvers<ContextType = any, ParentType extends ResolversParentTypes['Query'] = ResolversParentTypes['Query']> = ResolversObject<{
   cluster?: Resolver<Maybe<ResolversTypes['Cluster']>, ParentType, ContextType, RequireFields<QueryClusterArgs, 'id'>>;
-  clusterCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType>;
+  clusterCount?: Resolver<ResolversTypes['Int'], ParentType, ContextType, Partial<QueryClusterCountArgs>>;
   clusters?: Resolver<Maybe<Array<ResolversTypes['Cluster']>>, ParentType, ContextType, RequireFields<QueryClustersArgs, 'first'>>;
   mintableClusters?: Resolver<Maybe<Array<ResolversTypes['Cluster']>>, ParentType, ContextType, RequireFields<QueryMintableClustersArgs, 'address'>>;
   spore?: Resolver<Maybe<ResolversTypes['Spore']>, ParentType, ContextType, RequireFields<QuerySporeArgs, 'id'>>;
