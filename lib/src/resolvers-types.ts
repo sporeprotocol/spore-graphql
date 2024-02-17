@@ -16,6 +16,10 @@ export type Scalars = {
   Float: { input: number; output: number; }
 };
 
+export type BaseFilterInput = {
+  codeHash?: InputMaybe<Scalars['String']['input']>;
+};
+
 export enum CacheControlScope {
   Private = 'PRIVATE',
   Public = 'PUBLIC'
@@ -94,7 +98,7 @@ export type QueryClusterArgs = {
 
 
 export type QueryClusterCountArgs = {
-  codeHash?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<BaseFilterInput>;
 };
 
 
@@ -108,7 +112,7 @@ export type QueryClustersArgs = {
 
 export type QueryMintableClustersArgs = {
   address: Scalars['String']['input'];
-  codeHash?: InputMaybe<Scalars['String']['input']>;
+  filter?: InputMaybe<BaseFilterInput>;
 };
 
 
@@ -244,6 +248,7 @@ export type DirectiveResolverFn<TResult = {}, TParent = {}, TContext = {}, TArgs
 
 /** Mapping between all available schema types and the resolvers types */
 export type ResolversTypes = ResolversObject<{
+  BaseFilterInput: BaseFilterInput;
   Boolean: ResolverTypeWrapper<Scalars['Boolean']['output']>;
   CacheControlScope: CacheControlScope;
   Cell: ResolverTypeWrapper<Cell>;
@@ -264,6 +269,7 @@ export type ResolversTypes = ResolversObject<{
 
 /** Mapping between all available schema types and the resolvers parents */
 export type ResolversParentTypes = ResolversObject<{
+  BaseFilterInput: BaseFilterInput;
   Boolean: Scalars['Boolean']['output'];
   Cell: Cell;
   CellOutput: CellOutput;

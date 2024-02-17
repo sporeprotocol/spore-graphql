@@ -27,7 +27,7 @@ export interface Spore {
   cell: Cell;
   id: SporeId;
   codeHash: CodeHash;
-  clusterId: string | undefined;
+  clusterId?: Hash;
   contentType: string;
   content: string;
 }

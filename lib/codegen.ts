@@ -1,7 +1,8 @@
 import type { CodegenConfig } from '@graphql-codegen/cli';
 
 const config: CodegenConfig = {
-  schema: 'schema.graphql',
+  schema: './src/type-defs.ts',
+  require: ['ts-node/register'],
   generates: {
     './src/resolvers-types.ts': {
       config: {

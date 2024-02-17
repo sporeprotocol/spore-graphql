@@ -13,6 +13,10 @@ export const typeDefs: DocumentNode = gql`
     inheritMaxAge: Boolean
   ) on FIELD_DEFINITION | OBJECT | INTERFACE | UNION
 
+  input BaseFilterInput {
+    codeHash: String
+  }
+
   input SporeFilterInput {
     codeHash: String
     clusterIds: [String!]
@@ -27,8 +31,8 @@ export const typeDefs: DocumentNode = gql`
   }
 
   input TopClusterFilterInput {
-    mintableBy: String
     codeHash: String
+    mintableBy: String
   }
 
   enum QueryOrder {
@@ -83,20 +87,22 @@ export const typeDefs: DocumentNode = gql`
     id: String!
     name: String!
     description: String!
-    spores(filter: SporeFilterInput, first: Int, after: String, order: QueryOrder): [Spore!]
     cell: Cell
     codeHash: String
     capacityMargin: String
+    spores(filter: SporeFilterInput, first: Int, after: String, order: QueryOrder): [Spore!]
   }
 
   type Query {
-    spore(id: String!): Spore
+    spore(id: String!, filter: BaseFilterInput): Spore
     spores(filter: SporeFilterInput, first: Int = 10, after: String, order: QueryOrder): [Spore!]
     sporeCount(filter: SporeFilterInput): Int!
-    cluster(id: String!): Cluster
-    clusters(first: Int = 10, after: String, order: QueryOrder, filter: ClusterFilterInput): [Cluster!]
-    topClusters(first: Int, after: String, filter: TopClusterFilterInput): [Cluster!]
-    mintableClusters(address: String!, codeHash: String): [Cluster!]
-    clusterCount(codeHash: String): Int!
+    cluster(id: String!, filter: BaseFilterInput): Cluster
+    clusters(filter: ClusterFilterInput, first: Int = 10, after: String, order: QueryOrder): [Cluster!]
+    topClusters(filter: TopClusterFilterInput, first: Int, after: String): [Cluster!]
+    mintableClusters(address: String!, filter: BaseFilterInput): [Cluster!]
+    clusterCount(filter: BaseFilterInput): Int!
   }
 `;
+
+export default typeDefs;

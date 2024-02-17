@@ -1,20 +1,27 @@
 import { groupBy } from 'lodash-es';
-import { ContextValue } from '../context';
-import { ClusterQueryParams, TopClusterQueryParams } from './types';
-import { getQueryParams } from './utils';
 import { helpers } from '@ckb-lumos/lumos';
-import { isAnyoneCanPay, isSameScript } from '../utils';
+import { ContextValue } from '../context';
 import { Cluster, ClusterLoadKeys } from '../data-sources/types';
+import { isAnyoneCanPay, isSameScript } from '../utils';
+import { getQueryParams } from './utils';
+import {
+  SingleQueryParams,
+  ClustersQueryParams,
+  ClusterCountQueryParams,
+  MintableClustersQueryParams,
+  TopClustersQueryParams,
+} from './types';
 
 /**
  * Get the cluster by id
  */
 export async function getClusterById(
   _: unknown,
-  { id }: { id: string },
+  { id, filter = {} }: SingleQueryParams,
   { dataSources }: ContextValue,
 ): Promise<Cluster> {
-  const key: ClusterLoadKeys = [id, 'desc', 1];
+  const { codeHash } = filter;
+  const key: ClusterLoadKeys = [id, 'desc', 1, undefined, undefined, undefined, codeHash];
   const clusters = await dataSources.clusters.getClustersFor(key);
   const [cluster] = clusters;
   return cluster;
@@ -25,7 +32,7 @@ export async function getClusterById(
  */
 export async function getClusters(
   _: unknown,
-  params: ClusterQueryParams,
+  params: ClustersQueryParams,
   { dataSources }: ContextValue,
 ): Promise<Cluster[]> {
   const { first, after, order, filter } = getQueryParams(params);
@@ -39,7 +46,7 @@ export async function getClusters(
  */
 export async function getTopClusters(
   _: unknown,
-  params: TopClusterQueryParams,
+  params: TopClustersQueryParams,
   { dataSources }: ContextValue,
 ): Promise<Cluster[]> {
   const { first, after, filter } = getQueryParams(params);
@@ -76,9 +83,10 @@ export async function getTopClusters(
  */
 export async function getMintableClusters(
   _: unknown,
-  { address, codeHash }: { address: string; codeHash?: string },
+  { address, filter }: MintableClustersQueryParams,
   { dataSources, config }: ContextValue,
 ): Promise<Cluster[]> {
+  const { codeHash } = filter ?? {};
   const key: ClusterLoadKeys = ['0x', 'desc', Number.MAX_SAFE_INTEGER, undefined, undefined, undefined, codeHash];
   const clusters = await dataSources.clusters.getClustersFor(key);
   const lock = helpers.parseAddress(address, {
@@ -95,9 +103,10 @@ export async function getMintableClusters(
  */
 export async function getClusterCount(
   _: unknown,
-  { codeHash }: { codeHash?: string },
+  { filter }: ClusterCountQueryParams,
   { dataSources }: ContextValue,
 ): Promise<number> {
+  const { codeHash } = filter ?? {};
   const key: ClusterLoadKeys = ['0x', 'desc', Number.MAX_SAFE_INTEGER, undefined, undefined, undefined, codeHash];
   const clusters = await dataSources.clusters.getClustersFor(key);
   return clusters.length;
