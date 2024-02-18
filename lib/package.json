@@ -1,6 +1,6 @@
 {
   "name": "spore-graphql",
-  "version": "0.1.6",
+  "version": "0.1.7",
   "description": "A Graphql Layer designed to simplify Spore data queries",
   "type": "module",
   "module": "./build/index.js",
