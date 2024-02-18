@@ -1,34 +1,36 @@
 import DataLoader from 'dataloader';
 import { Cell, helpers } from '@ckb-lumos/lumos';
-import { unpackToRawClusterData, getSporeScript } from '@spore-sdk/core';
-import { encodeToAddress, isAnyoneCanPay, isSameScript } from '../utils';
+import { unpackToRawClusterData, getSporeScriptCategory } from '@spore-sdk/core';
+import { encodeToAddress, isAnyoneCanPay, isSameScript, hashKeys } from '../utils';
 import { BaseDataSource } from './base';
 import { IClustersDataSource } from './interface';
-import { Cluster, ClusterLoadKey } from './types';
+import { Cluster, ClusterLoadKeys } from './types';
 
 export class ClustersDataSource extends BaseDataSource implements IClustersDataSource {
-  public script = getSporeScript(this.config, 'Cluster').script;
+  public category = getSporeScriptCategory(this.config, 'Cluster');
 
   public static getClusterFromCell(cell: Cell): Cluster {
     const rawClusterData = unpackToRawClusterData(cell.data);
-    const cluster = {
+    return {
+      cell,
       id: cell.cellOutput.type?.args ?? '0x',
+      codeHash: cell.cellOutput.type!.codeHash,
       name: rawClusterData.name.toString(),
       description: rawClusterData.description?.toString(),
-      cell,
     };
-    return cluster;
   }
 
   private clustersLoader = new DataLoader(
-    (keys: readonly ClusterLoadKey[]) => {
+    (keyGroups: readonly ClusterLoadKeys[]) => {
       return Promise.all(
-        keys.map(async ([id, order, first, after, addresses, mintableBy]) => {
-          const collector = await this.collector.load([id, order]);
+        keyGroups.map(async (keys) => {
+          const [id, order, first, after, addresses, mintableBy, codeHash] = keys;
+
+          const collectIterator = await this.combineCollect([codeHash, id, order]);
 
           let startCollect = !after;
           const clusters: Cluster[] = [];
-          for await (const cell of collector.collect()) {
+          for await (const cell of collectIterator) {
             const id = cell.cellOutput.type?.args ?? '0x';
             // skip the cells before the after id
             if (!startCollect) {
@@ -72,14 +74,14 @@ export class ClustersDataSource extends BaseDataSource implements IClustersDataS
       );
     },
     {
-      cacheKeyFn: (key) => {
+      cacheKeyFn: (keys) => {
         const seconds = Math.floor(Date.now() / 1000);
-        return `clusters-${key.join('-')}-${seconds}`;
+        return `clusters-${hashKeys(keys)}-${seconds}`;
       },
     },
   );
 
-  async getClustersFor(paramsKey: ClusterLoadKey) {
+  async getClustersFor(paramsKey: ClusterLoadKeys) {
     return this.clustersLoader.load(paramsKey);
   }
 }

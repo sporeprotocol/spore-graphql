@@ -43,6 +43,9 @@ jobs:
       - name: Install dependencies
         run: pnpm i
 
+      - name: Check test cases
+        run: pnpm run test
+
       - name: Build and release package to npm
         id: changesets
         uses: changesets/action@v1

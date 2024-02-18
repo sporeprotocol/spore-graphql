@@ -1,35 +1,37 @@
 import DataLoader from 'dataloader';
-import { getSporeScript, unpackToRawSporeData } from '@spore-sdk/core';
 import { Cell } from '@ckb-lumos/lumos';
-import { BaseDataSource } from './base';
+import { getSporeScriptCategory, unpackToRawSporeData } from '@spore-sdk/core';
+import { encodeToAddress, hashKeys } from '../utils';
 import { ISporesDataSource } from './interface';
-import { Spore, SporeLoadKey } from './types';
-import { encodeToAddress } from '../utils';
+import { Spore, SporeLoadKeys } from './types';
+import { BaseDataSource } from './base';
 
 export class SporesDataSource extends BaseDataSource implements ISporesDataSource {
-  public script = getSporeScript(this.config, 'Spore').script;
+  public category = getSporeScriptCategory(this.config, 'Spore');
 
   public static getSporeFromCell(cell: Cell): Spore {
     const rawSporeData = unpackToRawSporeData(cell.data);
-    const spore = {
+    return {
+      cell,
       id: cell.cellOutput.type?.args ?? '0x',
+      codeHash: cell.cellOutput.type!.codeHash,
       clusterId: rawSporeData.clusterId?.toString(),
       contentType: rawSporeData.contentType.toString(),
       content: rawSporeData.content.toString(),
-      cell,
     };
-    return spore;
   }
 
   private sporesLoader = new DataLoader(
-    (keys: readonly SporeLoadKey[]) => {
+    (keyGroups: readonly SporeLoadKeys[]) => {
       return Promise.all(
-        keys.map(async ([id, order, first, after, clusterIds, contentTypes, addresses]) => {
-          const collector = await this.collector.load([id, order]);
+        keyGroups.map(async (keys) => {
+          const [id, order, first, after, clusterIds, contentTypes, addresses, codeHash] = keys;
+
+          const collectIterator = await this.combineCollect([codeHash, id, order]);
 
           let startCollect = !after;
           const spores: Spore[] = [];
-          for await (const cell of collector.collect()) {
+          for await (const cell of collectIterator) {
             const id = cell.cellOutput.type?.args ?? '0x';
             // skip the cells before the after id
             if (!startCollect) {
@@ -67,19 +69,20 @@ export class SporesDataSource extends BaseDataSource implements ISporesDataSourc
               break;
             }
           }
+
           return spores;
         }),
       );
     },
     {
-      cacheKeyFn: (key) => {
+      cacheKeyFn: (keys) => {
         const seconds = Math.floor(Date.now() / 1000);
-        return `spores-${key.join('-')}-${seconds}`;
+        return `spores-${hashKeys(keys)}-${seconds}`;
       },
     },
   );
 
-  async getSporesFor(paramsKey: SporeLoadKey) {
+  async getSporesFor(paramsKey: SporeLoadKeys) {
     return this.sporesLoader.load(paramsKey);
   }
 }

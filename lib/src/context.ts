@@ -11,7 +11,7 @@ export interface ContextValue {
   config: SporeConfig<string>;
 }
 
-export function createContext(config: SporeConfig<string> = predefinedSporeConfigs.Aggron4) {
+export function createContext(config: SporeConfig<string> = predefinedSporeConfigs.Testnet) {
   const spores = new SporesDataSource(config);
   const clusters = new ClustersDataSource(config);
 

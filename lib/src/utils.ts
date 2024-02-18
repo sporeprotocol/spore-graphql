@@ -1,7 +1,20 @@
 import { number } from '@ckb-lumos/codec';
-import { Script, helpers } from '@ckb-lumos/lumos';
 import { ScriptConfig } from '@ckb-lumos/config-manager';
-import { SporeConfig } from '@spore-sdk/core';
+import { Script, Hash, helpers, utils } from '@ckb-lumos/lumos';
+import { bytifyRawString, SporeConfig } from '@spore-sdk/core';
+
+const hashStore: Map<string, Hash> = new Map();
+
+export function hashKeys(keys: any[]): Hash {
+  const string = JSON.stringify(keys);
+  if (hashStore.has(string)) {
+    return hashStore.get(string)!;
+  }
+
+  const hash = utils.ckbHash(bytifyRawString(string));
+  hashStore.set(string, hash);
+  return hash;
+}
 
 export function encodeToAddress(script: Script, config: SporeConfig) {
   return helpers.encodeToAddress(script, {

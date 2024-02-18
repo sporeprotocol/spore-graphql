@@ -1,17 +1,9 @@
-import { After, ClusterId, ContentType, First, Order } from '../data-sources/types';
+import { Address, Hash } from '@ckb-lumos/lumos';
+import { After, ClusterId, CodeHash, ContentType, First, Order } from '../data-sources/types';
 
-export type BaseFilter = {
-  address?: string;
-  addresses?: string[];
-};
-
-export type SporeFilter = BaseFilter & {
-  clusterIds?: ClusterId[];
-  contentTypes?: ContentType[];
-};
-
-export type ClusterFilter = BaseFilter & {
-  mintableBy?: string;
+export type BaseQueryFilter = {
+  codeHash?: CodeHash;
+  addresses?: Address[];
 };
 
 export type BaseQueryParams = {
@@ -20,17 +12,43 @@ export type BaseQueryParams = {
   after?: After;
 };
 
-export type SporeQueryParams = BaseQueryParams & {
-  filter: SporeFilter;
+export type SporesQueryParams = BaseQueryParams & {
+  filter?: BaseQueryFilter & {
+    clusterIds?: ClusterId[];
+    contentTypes?: ContentType[];
+  };
 };
 
-export type ClusterQueryParams = BaseQueryParams & {
-  filter: ClusterFilter;
+export type SingleQueryParams = {
+  id: Hash;
+  filter?: {
+    codeHash?: CodeHash;
+  };
+};
+
+export type ClustersQueryParams = BaseQueryParams & {
+  filter?: BaseQueryFilter & {
+    mintableBy?: Address;
+  };
   after?: After;
 };
 
-export type TopClusterQueryParams = BaseQueryParams & {
-  filter: {
-    mintableBy?: string;
+export type TopClustersQueryParams = BaseQueryParams & {
+  filter?: {
+    mintableBy?: Address;
+    codeHash?: CodeHash;
+  };
+};
+
+export type MintableClustersQueryParams = {
+  address: Address;
+  filter?: {
+    codeHash?: CodeHash;
+  };
+};
+
+export type ClusterCountQueryParams = {
+  filter?: {
+    codeHash?: CodeHash;
   };
 };

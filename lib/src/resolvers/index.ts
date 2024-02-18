@@ -1,7 +1,7 @@
 import { ContextValue } from '../context';
 import { getSporeById, getSporeCount, getSpores } from './spore';
 import { getClusterById, getClusterCount, getClusters, getMintableClusters, getTopClusters } from './cluster';
-import { ClusterQueryParams, SporeQueryParams } from './types';
+import { ClustersQueryParams, SporesQueryParams } from './types';
 import { getCapacityMargin } from './utils';
 import { Cluster, Spore } from '../data-sources/types';
 
@@ -34,7 +34,7 @@ export const resolvers = {
   },
 
   Cluster: {
-    spores: async (cluster: Cluster, args: ClusterQueryParams, context: ContextValue): Promise<Spore[]> => {
+    spores: async (cluster: Cluster, args: ClustersQueryParams, context: ContextValue): Promise<Spore[]> => {
       const { first, after, order, filter } = args;
       const params = {
         filter: {
@@ -44,7 +44,7 @@ export const resolvers = {
         first: first ?? Number.MAX_SAFE_INTEGER,
         after,
         order,
-      } as SporeQueryParams;
+      } as SporesQueryParams;
       return getSpores(undefined, params, context);
     },
 

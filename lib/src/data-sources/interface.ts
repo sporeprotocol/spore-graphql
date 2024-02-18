@@ -1,9 +1,9 @@
-import { Cluster, ClusterLoadKey, Spore, SporeLoadKey } from './types';
+import { Cluster, ClusterLoadKeys, Spore, SporeLoadKeys } from './types';
 
 export interface ISporesDataSource {
-  getSporesFor(paramsKey: SporeLoadKey): Promise<Spore[]>;
+  getSporesFor(paramsKey: SporeLoadKeys): Promise<Spore[]>;
 }
 
 export interface IClustersDataSource {
-  getClustersFor(paramsKey: ClusterLoadKey): Promise<Cluster[]>;
+  getClustersFor(paramsKey: ClusterLoadKeys): Promise<Cluster[]>;
 }
