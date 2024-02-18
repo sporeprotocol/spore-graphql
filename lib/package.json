@@ -30,7 +30,6 @@
     "@ckb-lumos/codec": "^0.22.0-next.4",
     "@ckb-lumos/config-manager": "^0.22.0-next.4",
     "@ckb-lumos/lumos": "^0.22.0-next.4",
-    "fast-merge-async-iterators": "1.0.7",
     "combine-async-iterators": "2.1.0",
     "dataloader": "^2.2.2",
     "graphql": "^16.8.1",

@@ -105,9 +105,6 @@ importers:
       dataloader:
         specifier: ^2.2.2
         version: 2.2.2
-      fast-merge-async-iterators:
-        specifier: 1.0.7
-        version: 1.0.7
       graphql:
         specifier: ^16.8.1
         version: 16.8.1
@@ -4398,10 +4395,6 @@ packages:
   /fast-levenshtein@2.0.6:
     resolution: {integrity: sha512-DCXu6Ifhqcks7TZKY3Hxp3y6qphY5SJZmrWMDrKcERSOXWQdMhU9Ig/PYrzyw/ul9jOIyh0N4M0tbC5hodg8dw==}
     dev: true
-
-  /fast-merge-async-iterators@1.0.7:
-    resolution: {integrity: sha512-k8Wl17ypVLGdJxs0R/SxOiqv5I0T+qna4bh5tJV9SJKdcSls26fssSjaKRzX1g03nTc0GzYGyJJZyiitPYC0LQ==}
-    dev: false
 
   /fast-querystring@1.1.2:
     resolution: {integrity: sha512-g6KuKWmFXc0fID8WWH0jit4g0AGBoJhCkJMb1RmbsSEUNvQ+ZC8D6CUZ+GtF8nMzSPXnhiePyyqqipzNNEnHjg==}
