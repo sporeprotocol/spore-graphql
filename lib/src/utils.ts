@@ -55,7 +55,7 @@ export function isAnyoneCanPay(script: Script | undefined, config: SporeConfig<s
   if (!script) {
     return false;
   }
-  if (isOmnilockScript(script, config)) {
+  if (isOmnilockScript(script, config) && script.args.length >= 46) {
     // The Omnilock has a flag in the args, where each bit represents a feature.
     // Refer to: https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0042-omnilock/0042-omnilock.md#omnilock-args
     const flag = number.Uint8.unpack(`0x${script.args.slice(44, 46)}`);
