@@ -1,5 +1,11 @@
 # spore-graphql
 
+## 0.1.8
+
+### Patch Changes
+
+- 389aa39: Fix missing length check when unpacking omnilock flag and Omni script comparing logic
+
 ## 0.1.7
 
 ### Patch Changes
