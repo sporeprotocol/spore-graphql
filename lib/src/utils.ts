@@ -34,6 +34,19 @@ export function isOmnilockScript(script: Script, config: SporeConfig) {
   return script.codeHash === omnilockScript.CODE_HASH && script.hashType === omnilockScript.HASH_TYPE;
 }
 
+export function ScriptEqualDeepCheck(script_a: Script, script_b: Script, config: SporeConfig) {
+  const omni_a = isOmnilockScript(script_a, config);
+  const omni_b = isOmnilockScript(script_b, config);
+  if (omni_a !== omni_b) {
+    return false;
+  }
+  if (omni_a && omni_b) {
+    return script_a.args.slice(0, 42) == script_b.args.slice(0, 42);
+  } else {
+    return script_a === script_b;
+  }
+}
+
 export function isAnyoneCanPayScript(script: Script, config: SporeConfig<string>) {
   const anyoneCanPayLockScript = getScriptConfig('ANYONE_CAN_PAY', config);
   if (!anyoneCanPayLockScript) {
@@ -55,7 +68,7 @@ export function isAnyoneCanPay(script: Script | undefined, config: SporeConfig<s
   if (!script) {
     return false;
   }
-  if (isOmnilockScript(script, config)) {
+  if (isOmnilockScript(script, config) && script.args.length >= 46) {
     // The Omnilock has a flag in the args, where each bit represents a feature.
     // Refer to: https://github.com/nervosnetwork/rfcs/blob/master/rfcs/0042-omnilock/0042-omnilock.md#omnilock-args
     const flag = number.Uint8.unpack(`0x${script.args.slice(44, 46)}`);

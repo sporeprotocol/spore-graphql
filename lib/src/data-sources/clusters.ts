@@ -1,7 +1,7 @@
 import DataLoader from 'dataloader';
 import { Cell, helpers } from '@ckb-lumos/lumos';
 import { unpackToRawClusterData, getSporeScriptCategory } from '@spore-sdk/core';
-import { encodeToAddress, isAnyoneCanPay, isSameScript, hashKeys } from '../utils';
+import { isAnyoneCanPay, isSameScript, hashKeys, ScriptEqualDeepCheck } from '../utils';
 import { BaseDataSource } from './base';
 import { IClustersDataSource } from './interface';
 import { Cluster, ClusterLoadKeys } from './types';
@@ -40,13 +40,14 @@ export class ClustersDataSource extends BaseDataSource implements IClustersDataS
 
             const cluster = ClustersDataSource.getClusterFromCell(cell);
 
-            // check the address of the cluster
-            if (
-              addresses &&
-              addresses.length > 0 &&
-              !addresses.includes(encodeToAddress(cluster.cell.cellOutput.lock, this.config))
-            ) {
-              continue;
+            if (addresses && addresses.length > 0) {
+              // check the address of the cluster
+              const find = addresses
+                .map((address) => helpers.parseAddress(address, { config: this.config.lumos }))
+                .find((lock) => ScriptEqualDeepCheck(lock, cluster.cell.cellOutput.lock, this.config));
+              if (find === void 0) {
+                continue;
+              }
             }
 
             // check the mintableBy of the cluster
