@@ -96,6 +96,9 @@ importers:
       '@ckb-lumos/lumos':
         specifier: ^0.22.0-next.4
         version: 0.22.0-next.4
+      '@exact-realty/multipart-parser':
+        specifier: ^1.0.14
+        version: 1.0.14
       '@spore-sdk/core':
         specifier: ^0.2.0-beta.8
         version: 0.2.0-beta.8(@ckb-lumos/lumos@0.22.0-next.4)(lodash@4.17.21)
@@ -1686,6 +1689,11 @@ packages:
     resolution: {integrity: sha512-gMsVel9D7f2HLkBma9VbtzZRehRogVRfbr++f06nL2vnCGCNlzOD+/MUov/F4p8myyAHspEhVobgjpX64q5m6A==}
     engines: {node: ^12.22.0 || ^14.17.0 || >=16.0.0}
     dev: true
+
+  /@exact-realty/multipart-parser@1.0.14:
+    resolution: {integrity: sha512-ln1+s1XOvRY9NRof3lpjWJZfSoV5XOWdVgK7sYeE3TAt0brtB+pIPJpSbxaol/490re2rcMEo24VZXeffKm8Aw==}
+    engines: {node: '>=16.0.0', npm: '>=8.0.0'}
+    dev: false
 
   /@graphql-codegen/cli@5.0.0(@types/node@20.11.5)(graphql@16.8.1)(typescript@5.3.3):
     resolution: {integrity: sha512-A7J7+be/a6e+/ul2KI5sfJlpoqeqwX8EzktaKCeduyVKgOLA6W5t+NUGf6QumBDXU8PEOqXk3o3F+RAwCWOiqA==}
