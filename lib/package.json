@@ -30,6 +30,7 @@
     "@ckb-lumos/codec": "^0.22.0-next.4",
     "@ckb-lumos/config-manager": "^0.22.0-next.4",
     "@ckb-lumos/lumos": "^0.22.0-next.4",
+    "@exact-realty/multipart-parser": "^1.0.14",
     "combine-async-iterators": "2.1.0",
     "dataloader": "^2.2.2",
     "graphql": "^16.8.1",
@@ -44,7 +45,7 @@
     "vitest": "^1.2.0"
   },
   "peerDependencies": {
-    "@spore-sdk/core": "^0.2.0-beta.2"
+    "@spore-sdk/core": "^0.2.0-beta.8"
   },
   "publishConfig": {
     "access": "public"
