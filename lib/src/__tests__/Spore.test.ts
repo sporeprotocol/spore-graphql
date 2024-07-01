@@ -12,7 +12,7 @@ describe('SporeDataSource', () => {
     expect(spores.length).toBe(1);
   });
   it('Get SporeV2', async () => {
-    const id = '0xdeade53312be714f15112f2becf64880dd6dbdc902ffb132203ec21eb01d22e7';
+    const id = '0xfa5c0998f04daf57d5804280edd37718d80f4c0f3ad1419f5195a291e8db9c9a';
     const spores = await dataSource.getSporesFor([id, 'desc', 1]);
     expect(spores.length).toBe(1);
   });
