@@ -1,5 +1,11 @@
 # spore-graphql
 
+## 0.1.9
+
+### Patch Changes
+
+- f83d7f: update dependencies
+
 ## 0.1.8
 
 ### Patch Changes
