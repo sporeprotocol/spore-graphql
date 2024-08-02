@@ -1,5 +1,9 @@
 # spore-graphql
 
+## 0.2.0
+
+- update `@spore-sdk/core` to `0.21.1`
+
 ## 0.1.9
 
 ### Patch Changes
